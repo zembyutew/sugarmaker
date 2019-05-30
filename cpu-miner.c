@@ -1948,13 +1948,13 @@ int main(int argc, char *argv[])
 
 #ifdef HAVE_CPUINFO
 	have_cpuinfo = !cpuinfo_init();
-
-	if (!opt_n_threads && have_cpuinfo)
-		opt_n_threads = cpuinfo.physical;
 #endif
 
-	if (!opt_n_threads)
+	if (!opt_n_threads) {
 		opt_n_threads = num_processors;
+		if (have_cpuinfo)
+			opt_n_threads = cpuinfo.physical;
+	}
 
 #ifdef HAVE_SYSLOG_H
 	if (use_syslog)
@@ -2020,10 +2020,6 @@ int main(int argc, char *argv[])
 		if (have_stratum)
 			tq_push(thr_info[stratum_thr_id].q, strdup(rpc_url));
 	}
-
-#ifdef HAVE_CPUINFO
-	have_cpuinfo = !cpuinfo_init();
-#endif
 
 	/* start mining threads */
 	for (i = 0; i < opt_n_threads; i++) {
