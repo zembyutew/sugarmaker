@@ -101,14 +101,10 @@ struct workio_cmd {
 };
 
 enum algos {
-	ALGO_SCRYPT,		/* scrypt(1024,1,1) */
-	ALGO_SHA256D,		/* SHA-256d */
 	ALGO_SUGAR_YESPOWER_1_0_1
 };
 
 static const char *algo_names[] = {
-	[ALGO_SCRYPT]		= "scrypt",
-	[ALGO_SHA256D]		= "sha256d",
 	[ALGO_SUGAR_YESPOWER_1_0_1]	= "YespowerSugar"
 };
 
@@ -129,8 +125,7 @@ static int opt_retries = -1;
 static int opt_fail_pause = 30;
 int opt_timeout = 0;
 static int opt_scantime = 5;
-static enum algos opt_algo = ALGO_SCRYPT;
-static int opt_scrypt_n = 1024;
+static enum algos opt_algo = ALGO_SUGAR_YESPOWER_1_0_1;
 static int opt_n_threads;
 static int num_processors;
 static char *rpc_url;
@@ -171,10 +166,7 @@ static char const usage[] = "\
 Usage: " PROGRAM_NAME " [OPTIONS]\n\
 Options:\n\
   -a, --algo=ALGO       specify the algorithm to use\n\
-                          scrypt    scrypt(1024, 1, 1) (default)\n\
-                          scrypt:N  scrypt(N, 1, 1)\n\
-                          sha256d   SHA-256d\n\
-                          YespowerSugar\n\
+                          YespowerSugar (default)\n\
   -o, --url=URL         URL of mining server\n\
   -O, --userpass=U:P    username:password pair for mining server\n\
   -u, --user=USERNAME   username for mining server\n\
@@ -1100,10 +1092,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work)
 		free(xnonce2str);
 	}
 
-	if (opt_algo == ALGO_SCRYPT)
-		diff_to_target(work->target, sctx->job.diff / 65536.0);
-	else
-		diff_to_target(work->target, sctx->job.diff);
+	diff_to_target(work->target, sctx->job.diff / 65536.0);
 }
 
 static void *miner_thread(void *userdata)
@@ -1113,7 +1102,6 @@ static void *miner_thread(void *userdata)
 	struct work work = {{0}};
 	uint32_t max_nonce;
 	uint32_t end_nonce = 0xffffffffU / opt_n_threads * (thr_id + 1) - 0x20;
-	unsigned char *scratchbuf = NULL;
 	char s[16];
 	int i;
 
@@ -1132,15 +1120,6 @@ static void *miner_thread(void *userdata)
 			applog(LOG_INFO, "Binding thread %d to cpu %d",
 			       thr_id, thr_id % num_processors);
 		affine_to_cpu(thr_id, thr_id % num_processors);
-	}
-	
-	if (opt_algo == ALGO_SCRYPT) {
-		scratchbuf = scrypt_buffer_alloc(opt_scrypt_n);
-		if (!scratchbuf) {
-			applog(LOG_ERR, "scrypt buffer allocation failed");
-			pthread_mutex_lock(&applog_lock);
-			exit(1);
-		}
 	}
 
 	while (1) {
@@ -1194,11 +1173,6 @@ static void *miner_thread(void *userdata)
 		max64 *= thr_hashrates[thr_id];
 		if (max64 <= 0) {
 			switch (opt_algo) {
-			case ALGO_SCRYPT:
-				max64 = opt_scrypt_n < 16 ? 0x3ffff : 0x3fffff / opt_scrypt_n;
-				break;
-			case ALGO_SHA256D:
-				max64 = 0x1fffff;
 			case ALGO_SUGAR_YESPOWER_1_0_1:
 				max64 = 499;
 				break;
@@ -1214,15 +1188,6 @@ static void *miner_thread(void *userdata)
 
 		/* scan nonces for a proof-of-work hash */
 		switch (opt_algo) {
-		case ALGO_SCRYPT:
-			rc = scanhash_scrypt(thr_id, work.data, scratchbuf, work.target,
-			                     max_nonce, &hashes_done, opt_scrypt_n);
-			break;
-
-		case ALGO_SHA256D:
-			rc = scanhash_sha256d(thr_id, work.data, work.target,
-			                      max_nonce, &hashes_done);
-			break;
 
 		case ALGO_SUGAR_YESPOWER_1_0_1:
 			rc = scanhash_sugar_yespower(thr_id, work.data, work.target,
@@ -1539,15 +1504,6 @@ static void parse_arg(int key, char *arg, char *pname)
 			if (!strncmp(arg, algo_names[i], v)) {
 				if (arg[v] == '\0') {
 					opt_algo = i;
-					break;
-				}
-				if (arg[v] == ':' && i == ALGO_SCRYPT) {
-					char *ep;
-					v = strtol(arg+v+1, &ep, 10);
-					if (*ep || v & (v-1) || v < 2)
-						continue;
-					opt_algo = i;
-					opt_scrypt_n = v;
 					break;
 				}
 			}

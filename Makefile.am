@@ -17,7 +17,6 @@ dist_man_MANS		= minerd.1
 minerd_SOURCES	=	elist.h miner.h compat.h \
 									cpu-miner.c util.c \
 									sha2.c \
-									scrypt.c \
 									yespower-1.0.1/sha256.c yespower-1.0.1/yespower-opt.c YespowerSugar.c
 
 minerd_LDFLAGS	= $(PTHREAD_FLAGS)
