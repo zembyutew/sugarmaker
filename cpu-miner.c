@@ -1385,7 +1385,8 @@ start:
 		}
 		if (likely(val)) {
 			bool rc;
-			applog(LOG_INFO, "LONGPOLL pushed new work");
+			// LOG_DISABLED: SOLO
+			// applog(LOG_INFO, "LONGPOLL pushed new work");
 			res = json_object_get(val, "result");
 			soval = json_object_get(res, "submitold");
 			submit_old = soval ? json_is_true(soval) : false;
@@ -1499,7 +1500,8 @@ static void *stratum_thread(void *userdata)
 			time(&g_work_time);
 			pthread_mutex_unlock(&g_work_lock);
 			if (stratum.job.clean) {
-				applog(LOG_INFO, "Stratum requested work restart");
+				// LOG_DISABLED: STRATUM(POOL)
+				// applog(LOG_INFO, "Stratum requested work restart");
 				restart_threads();
 			}
 		}
