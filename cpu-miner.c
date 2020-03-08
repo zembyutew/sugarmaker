@@ -103,11 +103,13 @@ struct workio_cmd {
 enum algos {
 	ALGO_SCRYPT,		/* scrypt(1024,1,1) */
 	ALGO_SHA256D,		/* SHA-256d */
+	ALGO_SUGAR_YESPOWER_1_0_1
 };
 
 static const char *algo_names[] = {
 	[ALGO_SCRYPT]		= "scrypt",
 	[ALGO_SHA256D]		= "sha256d",
+	[ALGO_SUGAR_YESPOWER_1_0_1]	= "YespowerSugar"
 };
 
 bool opt_debug = false;
@@ -117,7 +119,7 @@ bool opt_redirect = true;
 bool want_longpoll = true;
 bool have_longpoll = false;
 bool have_gbt = true;
-bool allow_getwork = true;
+bool allow_getwork = false;
 bool want_stratum = true;
 bool have_stratum = false;
 bool use_syslog = false;
@@ -172,6 +174,7 @@ Options:\n\
                           scrypt    scrypt(1024, 1, 1) (default)\n\
                           scrypt:N  scrypt(N, 1, 1)\n\
                           sha256d   SHA-256d\n\
+                          YespowerSugar\n\
   -o, --url=URL         URL of mining server\n\
   -O, --userpass=U:P    username:password pair for mining server\n\
   -u, --user=USERNAME   username for mining server\n\
@@ -674,8 +677,8 @@ static void share_result(int result, const char *reason)
 	result ? accepted_count++ : rejected_count++;
 	pthread_mutex_unlock(&stats_lock);
 	
-	sprintf(s, hashrate >= 1e6 ? "%.0f" : "%.2f", 1e-3 * hashrate);
-	applog(LOG_INFO, "accepted: %lu/%lu (%.2f%%), %s khash/s %s",
+	sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.1f", hashrate);
+	applog(LOG_INFO, "accepted: %lu/%lu (%.2f%%), %s hash/s %s",
 		   accepted_count,
 		   accepted_count + rejected_count,
 		   100. * accepted_count / (accepted_count + rejected_count),
@@ -1196,6 +1199,8 @@ static void *miner_thread(void *userdata)
 				break;
 			case ALGO_SHA256D:
 				max64 = 0x1fffff;
+			case ALGO_SUGAR_YESPOWER_1_0_1:
+				max64 = 499;
 				break;
 			}
 		}
@@ -1219,6 +1224,11 @@ static void *miner_thread(void *userdata)
 			                      max_nonce, &hashes_done);
 			break;
 
+		case ALGO_SUGAR_YESPOWER_1_0_1:
+			rc = scanhash_sugar_yespower(thr_id, work.data, work.target,
+			                     	max_nonce, &hashes_done);
+			break;
+
 		default:
 			/* should never happen */
 			goto out;
@@ -1234,18 +1244,20 @@ static void *miner_thread(void *userdata)
 			pthread_mutex_unlock(&stats_lock);
 		}
 		if (!opt_quiet) {
-			sprintf(s, thr_hashrates[thr_id] >= 1e6 ? "%.0f" : "%.2f",
-				1e-3 * thr_hashrates[thr_id]);
-			applog(LOG_INFO, "thread %d: %lu hashes, %s khash/s",
+			sprintf(s, thr_hashrates[thr_id] >= 1e3 ? "%.0f" : "%.1f",
+				thr_hashrates[thr_id]);
+			applog(LOG_INFO, "thread %d: %lu hashes, %s hash/s",
 				thr_id, hashes_done, s);
 		}
 		if (opt_benchmark && thr_id == opt_n_threads - 1) {
 			double hashrate = 0.;
+			pthread_mutex_lock(&stats_lock);
 			for (i = 0; i < opt_n_threads && thr_hashrates[i]; i++)
 				hashrate += thr_hashrates[i];
+			pthread_mutex_unlock(&stats_lock);
 			if (i == opt_n_threads) {
-				sprintf(s, hashrate >= 1e6 ? "%.0f" : "%.2f", 1e-3 * hashrate);
-				applog(LOG_INFO, "Total: %s khash/s", s);
+				sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.1f", hashrate);
+				applog(LOG_INFO, "Total: %s hash/s", s);
 			}
 		}
 
@@ -1467,47 +1479,27 @@ out:
 
 static void show_version_and_exit(void)
 {
-	printf(PACKAGE_STRING "\n built on " __DATE__ "\n features:"
-#if defined(USE_ASM) && defined(__i386__)
+	printf(PACKAGE_STRING "\nFeatures:"
+#if defined(__i386__) || defined(__x86_64__)
+#ifdef __x86_64__
+		" x86_64"
+#else
 		" i386"
 #endif
-#if defined(USE_ASM) && defined(__x86_64__)
-		" x86_64"
-		" PHE"
-#endif
-#if defined(USE_ASM) && (defined(__i386__) || defined(__x86_64__))
+#ifdef __SSE2__
 		" SSE2"
 #endif
-#if defined(__x86_64__) && defined(USE_AVX)
+#ifdef __SSE4_1__
+		" SSE4.1"
+#endif
+#ifdef __AVX__
 		" AVX"
 #endif
-#if defined(__x86_64__) && defined(USE_AVX2)
-		" AVX2"
-#endif
-#if defined(__x86_64__) && defined(USE_XOP)
+#ifdef __XOP__
 		" XOP"
 #endif
-#if defined(USE_ASM) && defined(__arm__) && defined(__APCS_32__)
-		" ARM"
-#if defined(__ARM_ARCH_5E__) || defined(__ARM_ARCH_5TE__) || \
-	defined(__ARM_ARCH_5TEJ__) || defined(__ARM_ARCH_6__) || \
-	defined(__ARM_ARCH_6J__) || defined(__ARM_ARCH_6K__) || \
-	defined(__ARM_ARCH_6M__) || defined(__ARM_ARCH_6T2__) || \
-	defined(__ARM_ARCH_6Z__) || defined(__ARM_ARCH_6ZK__) || \
-	defined(__ARM_ARCH_7__) || \
-	defined(__ARM_ARCH_7A__) || defined(__ARM_ARCH_7R__) || \
-	defined(__ARM_ARCH_7M__) || defined(__ARM_ARCH_7EM__)
-		" ARMv5E"
-#endif
-#if defined(__ARM_NEON__)
-		" NEON"
-#endif
-#endif
-#if defined(USE_ASM) && (defined(__powerpc__) || defined(__ppc__) || defined(__PPC__))
-		" PowerPC"
-#if defined(__ALTIVEC__)
-		" AltiVec"
-#endif
+#else
+		" generic"
 #endif
 		"\n");
 
@@ -1916,6 +1908,14 @@ int main(int argc, char *argv[])
 #endif
 	if (num_processors < 1)
 		num_processors = 1;
+
+#ifdef HAVE_CPUINFO
+	have_cpuinfo = !cpuinfo_init();
+
+	if (!opt_n_threads && have_cpuinfo)
+		opt_n_threads = cpuinfo.physical;
+#endif
+
 	if (!opt_n_threads)
 		opt_n_threads = num_processors;
 
