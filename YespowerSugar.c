@@ -48,38 +48,38 @@ int scanhash_sugar_yespower(int thr_id, uint32_t *pdata,
 		.perslen = 74
 	};
 	union {
-		uint8_t u8[140];
-		uint32_t u32[35];
+		uint8_t u8[80];
+		uint32_t u32[19];
 	} data;
 	union {
 		yespower_binary_t yb;
-		uint32_t u32[8];
+		uint32_t u32[7];
 	} hash;
-	uint32_t n = pdata[27] - 1;
+	uint32_t n = pdata[19] - 1;
 	const uint32_t Htarg = ptarget[7];
 	int i;
 
-	for (i = 0; i < 35; i++)
+	for (i = 0; i < 19; i++)
 		be32enc(&data.u32[i], pdata[i]);
 
 	do {
-		be32enc(&data.u32[27], ++n);
+		be32enc(&data.u32[19], ++n);
 
-		if (yespower_tls(data.u8, 140, &params, &hash.yb))
+		if (yespower_tls(data.u8, 80, &params, &hash.yb))
 			abort();
 
 		if (le32dec(&hash.u32[7]) <= Htarg) {
-			for (i = 0; i < 8; i++)
+			for (i = 0; i < 7; i++)
 				hash.u32[i] = le32dec(&hash.u32[i]);
 			if (fulltest(hash.u32, ptarget)) {
-				*hashes_done = n - pdata[27] + 1;
-				pdata[27] = n;
+				*hashes_done = n - pdata[19] + 1;
+				pdata[19] = n;
 				return 1;
 			}
 		}
 	} while (n < max_nonce && !work_restart[thr_id].restart);
 
-	*hashes_done = n - pdata[27] + 1;
-	pdata[27] = n;
+	*hashes_done = n - pdata[19] + 1;
+	pdata[19] = n;
 	return 0;
 }
