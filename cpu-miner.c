@@ -38,6 +38,11 @@
 #include "compat.h"
 #include "miner.h"
 
+#include "cpuinfo.h"
+#ifdef HAVE_CPUINFO
+static int have_cpuinfo;
+#endif
+
 #define PROGRAM_NAME		"minerd"
 #define LP_SCANTIME		60
 
@@ -697,13 +702,13 @@ static bool submit_upstream_work(CURL *curl, struct work *work)
 	}
 
 	if (have_stratum) {
-		uint32_t ntime, nonce;
+		unsigned char ntime[4], nonce[4];
 		char ntimestr[9], noncestr[9], *xnonce2str, *req;
 
-		le32enc(&ntime, work->data[17]);
-		le32enc(&nonce, work->data[19]);
-		bin2hex(ntimestr, (const unsigned char *)(&ntime), 4);
-		bin2hex(noncestr, (const unsigned char *)(&nonce), 4);
+		le32enc(ntime, work->data[17]);
+		le32enc(nonce, work->data[19]);
+		bin2hex(ntimestr, ntime, 4);
+		bin2hex(noncestr, nonce, 4);
 		xnonce2str = abin2hex(work->xnonce2, work->xnonce2_len);
 		req = malloc(256 + strlen(rpc_user) + strlen(work->job_id) + 2 * work->xnonce2_len);
 		sprintf(req,
@@ -1095,15 +1100,100 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work)
 	diff_to_target(work->target, sctx->job.diff / 65536.0);
 }
 
+static void init_thread_affinity(unsigned int thr_id)
+{
+#ifdef HAVE_CPUINFO
+	if (!have_cpuinfo)
+#endif
+	{
+		/* CPU affinity makes most sense if the number of threads is a
+		 * multiple of the number of CPUs */
+		if (num_processors > 1 && opt_n_threads % num_processors == 0) {
+			if (!opt_quiet)
+				applog(LOG_INFO, "Binding thread %u to logical CPU %u",
+				       thr_id, thr_id % num_processors);
+			affine_to_cpu(thr_id, thr_id % num_processors);
+		}
+
+		return;
+	}
+
+#ifdef HAVE_CPUINFO
+	static pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+	pthread_mutex_lock(&mutex);
+
+	/* Try to order threads by number (this is purely cosmetic) */
+	static unsigned int last_thr_id = -1;
+	unsigned int timeout = 10000;
+	while (thr_id != last_thr_id + 1 && --timeout) {
+		pthread_mutex_unlock(&mutex);
+		sched_yield();
+		pthread_mutex_lock(&mutex);
+	}
+	last_thr_id = thr_id;
+
+	static cpu_set_t cpus_inuse; /* zero-initialized */
+	uint32_t use_per_seq[CPUINFO_LOGICAL_MAX] = {};
+	uint32_t use_per_chip[CPUINFO_CHIP_MAX] = {};
+
+	if (cpuinfo.logical > CPU_SETSIZE)
+		cpuinfo.logical = CPU_SETSIZE;
+
+	uint32_t i;
+	for (i = 0; i < cpuinfo.logical; i++) {
+		if (!CPU_ISSET(i, &cpus_inuse))
+			continue;
+		use_per_seq[cpuinfo.log2phy[i].seq]++;
+		use_per_chip[cpuinfo.log2phy[i].chip]++;
+	}
+
+	uint32_t min_per_seq = UINT32_MAX, min_per_chip = UINT32_MAX;
+	uint32_t imin = UINT32_MAX;
+	for (i = 0; i < cpuinfo.logical; i++) {
+		if (CPU_ISSET(i, &cpus_inuse))
+			continue;
+		uint32_t cur_per_seq = use_per_seq[cpuinfo.log2phy[i].seq];
+		uint32_t cur_per_chip = use_per_chip[cpuinfo.log2phy[i].chip];
+		if (cur_per_seq < min_per_seq || (cur_per_seq == min_per_seq &&
+		    cur_per_chip < min_per_chip)) {
+			min_per_seq = cur_per_seq;
+			min_per_chip = cur_per_chip;
+			imin = i;
+		}
+	}
+
+	if (imin == UINT32_MAX)
+		return;
+
+	if (!opt_quiet)
+		applog(LOG_INFO, "Binding thread %u to logical CPU %u (chip %u, core %u)",
+		       thr_id, imin, cpuinfo.log2phy[imin].chip, cpuinfo.log2phy[imin].core);
+
+	cpu_set_t cpus;
+	CPU_ZERO(&cpus);
+	CPU_SET(imin, &cpus);
+	if (sched_setaffinity(0, sizeof(cpus), &cpus)) {
+		perror("sched_setaffinity");
+	} else {
+		CPU_SET(imin, &cpus_inuse);
+	}
+
+	pthread_mutex_unlock(&mutex);
+#endif
+}
+
 static void *miner_thread(void *userdata)
 {
 	struct thr_info *mythr = userdata;
 	int thr_id = mythr->id;
 	struct work work = {{0}};
 	uint32_t max_nonce;
+	uint32_t start_nonce = 0xffffffffU / opt_n_threads * thr_id;
 	uint32_t end_nonce = 0xffffffffU / opt_n_threads * (thr_id + 1) - 0x20;
 	char s[16];
 	int i;
+
+	init_thread_affinity(thr_id);
 
 	/* Set worker threads to nice 19 and then preferentially to SCHED_IDLE
 	 * and if that fails, then SCHED_BATCH. No need for this to be an
@@ -1111,15 +1201,6 @@ static void *miner_thread(void *userdata)
 	if (!opt_benchmark) {
 		setpriority(PRIO_PROCESS, 0, 19);
 		drop_policy();
-	}
-
-	/* Cpu affinity only makes sense if the number of threads is a multiple
-	 * of the number of CPUs */
-	if (num_processors > 1 && opt_n_threads % num_processors == 0) {
-		if (!opt_quiet)
-			applog(LOG_INFO, "Binding thread %d to cpu %d",
-			       thr_id, thr_id % num_processors);
-		affine_to_cpu(thr_id, thr_id % num_processors);
 	}
 
 	while (1) {
@@ -1158,7 +1239,7 @@ static void *miner_thread(void *userdata)
 		if (memcmp(work.data, g_work.data, 76)) {
 			work_free(&work);
 			work_copy(&work, &g_work);
-			work.data[19] = 0xffffffffU / opt_n_threads * thr_id;
+			work.data[19] = start_nonce;
 		} else
 			work.data[19]++;
 		pthread_mutex_unlock(&g_work_lock);
@@ -1867,13 +1948,13 @@ int main(int argc, char *argv[])
 
 #ifdef HAVE_CPUINFO
 	have_cpuinfo = !cpuinfo_init();
-
-	if (!opt_n_threads && have_cpuinfo)
-		opt_n_threads = cpuinfo.physical;
 #endif
 
-	if (!opt_n_threads)
+	if (!opt_n_threads) {
 		opt_n_threads = num_processors;
+		if (have_cpuinfo)
+			opt_n_threads = cpuinfo.physical;
+	}
 
 #ifdef HAVE_SYSLOG_H
 	if (use_syslog)
@@ -1954,6 +2035,10 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 	}
+
+	/* Give the threads a chance to print their messages first */
+	if (!opt_quiet)
+		sleep(1);
 
 	applog(LOG_INFO, "%d miner threads started, "
 		"using '%s' algorithm.",
