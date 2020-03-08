@@ -26,3 +26,5 @@ config.sub
 
 mingw32-config.cache
 
+# kanon
+yespower-1.0.1/.dirstamp
