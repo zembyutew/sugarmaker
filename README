@@ -1,19 +1,27 @@
-This is a multi-threaded CPU miner for Litecoin and Bitcoin,
-fork of Jeff Garzik's reference cpuminer.
+This is a multi-threaded CPU miner for Resistance, fork of pooler's fork of
+Jeff Garzik's reference cpuminer.  Bitcoin's SHA-256d and Litecoin's scrypt
+have been dropped in favor of Resistance's yespower 1.0 in this fork.
 
-License: GPLv2.  See COPYING for details.
+License:  GPLv2.  See COPYING for details.
 
-Downloads:  https://sourceforge.net/projects/cpuminer/files/
-Git tree:   https://github.com/pooler/cpuminer
+Git tree:  https://github.com/ResistancePlatform/resistance-miner
 
-Dependencies:
-	libcurl			http://curl.haxx.se/libcurl/
-	jansson			http://www.digip.org/jansson/
-		(jansson is included in-tree)
+Build dependencies:
+	autoconf
+	automake
+	GNU make
+	gcc
+	libcurl			https://curl.haxx.se/libcurl/
+
+On recent Debian and Ubuntu, these can be installed with:
+	apt-get install build-essential libcurl4-openssl-dev
+
+On recent Fedora, RHEL, CentOS, these can be installed with:
+	yum install autoconf automake make gcc libcurl-devel
 
 Basic *nix build instructions:
-	./autogen.sh	# only needed if building from git repo
-	./configure CFLAGS="-O3" # Make sure -O3 is an O and not a zero!
+	./autogen.sh
+	./configure
 	make
 
 Notes for AIX users:
@@ -25,37 +33,28 @@ Basic Windows build instructions, using MinGW:
 	Install MinGW and the MSYS Developer Tool Kit (http://www.mingw.org/)
 		* Make sure you have mstcpip.h in MinGW\include
 	If using MinGW-w64, install pthreads-w64
-	Install libcurl devel (http://curl.haxx.se/download.html)
+	Install libcurl devel (https://curl.haxx.se/download.html)
 		* Make sure you have libcurl.m4 in MinGW\share\aclocal
 		* Make sure you have curl-config in MinGW\bin
 	In the MSYS shell, run:
-		./autogen.sh	# only needed if building from git repo
-		LIBCURL="-lcurldll" ./configure CFLAGS="-O3"
+		./autogen.sh
+		LIBCURL='-lcurldll' ./configure
 		make
 
-Architecture-specific notes:
-	ARM:	No runtime CPU detection. The miner can take advantage
-		of some instructions specific to ARMv5E and later processors,
-		but the decision whether to use them is made at compile time,
-		based on compiler-defined macros.
-		To use NEON instructions, add "-mfpu=neon" to CFLAGS.
-	PowerPC: No runtime CPU detection.
-		To use AltiVec instructions, add "-maltivec" to CFLAGS.
-	x86:	The miner checks for SSE2 instructions support at runtime,
-		and uses them if they are available.
-	x86-64:	The miner can take advantage of AVX, AVX2 and XOP instructions,
-		but only if both the CPU and the operating system support them.
-		    * Linux supports AVX starting from kernel version 2.6.30.
-		    * FreeBSD supports AVX starting with 9.1-RELEASE.
-		    * Mac OS X added AVX support in the 10.6.8 update.
-		    * Windows supports AVX starting from Windows 7 SP1 and
-		      Windows Server 2008 R2 SP1.
-		The configure script outputs a warning if the assembler
-		doesn't support some instruction sets. In that case, the miner
-		can still be built, but unavailable optimizations are left off.
-		The miner uses the VIA Padlock Hash Engine where available.
-
 Usage instructions:  Run "minerd --help" to see options.
+
+You can solo-mine using these options:
+
+	./minerd -o http://127.0.0.1:8132 -u user -p putyourrpcpasswordhere
+
+(Omit the leading "./" if you're on Windows.)  For the above to work, you need
+a fully-synced node running locally and with RPC username/password configured,
+e.g. with the below in your ".resistance/resistance.conf":
+
+rpcbind=127.0.0.1
+rpcallowip=127.0.0.0/8
+rpcuser=user
+rpcpassword=putyourrpcpasswordhere
 
 Connecting through a proxy:  Use the --proxy option.
 To use a SOCKS proxy, add a socks4:// or socks5:// prefix to the proxy host.
@@ -64,7 +63,3 @@ available since libcurl 7.18.0.
 If no protocol is specified, the proxy is assumed to be a HTTP proxy.
 When the --proxy option is not used, the program honors the http_proxy
 and all_proxy environment variables.
-
-Also many issues and FAQs are covered in the forum thread
-dedicated to this program,
-	https://bitcointalk.org/index.php?topic=55038.0
