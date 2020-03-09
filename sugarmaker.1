@@ -1,54 +1,54 @@
-.TH MINERD 1 "June 2017" "cpuminer 2.5.0"
+.TH SUGARMAKER 1 "June 2017" "sugarmaker 2.5.0"
 .SH NAME
-minerd \- CPU miner for Bitcoin and Litecoin
+sugarmaker \- CPU miner for YespowerSugar
 .SH SYNOPSIS
-.B minerd
+.B sugarmaker
 [\fIOPTION\fR]...
 .SH DESCRIPTION
-.B minerd
-is a multi-threaded CPU miner for Bitcoin, Litecoin and other cryptocurrencies.
+.B sugarmaker
+is a multi-threaded CPU miner for YespowerSugar and other cryptocurrencies.
 It supports the getwork and getblocktemplate (BIP 22) methods,
 as well as the Stratum mining protocol.
 .PP
-In its normal mode of operation, \fBminerd\fR connects to a mining server
+In its normal mode of operation, \fBsugarmaker\fR connects to a mining server
 (specified with the \fB\-o\fR option), receives work from it and starts hashing.
 As soon as a solution is found, it is submitted to the same mining server,
 which can accept or reject it.
 When using getwork or getblocktemplate,
-\fBminerd\fR can take advantage of long polling, if the server supports it;
+\fBsugarmaker\fR can take advantage of long polling, if the server supports it;
 in any case, fresh work is fetched as needed.
 When using the Stratum protocol this is not possible,
 and the server is responsible for sending fresh work at least every minute;
 if it fails to do so,
-\fBminerd\fR may drop the connection and try reconnecting again.
+\fBsugarmaker\fR may drop the connection and try reconnecting again.
 .PP
-By default, \fBminerd\fR writes all its messages to standard error.
+By default, \fBsugarmaker\fR writes all its messages to standard error.
 On systems that have a syslog, the \fB\-\-syslog\fR option can be used
 to write to it instead.
 .PP
 On start, the nice value of all miner threads is set to 19.
 On Linux, the scheduling policy is also changed to SCHED_IDLE,
 or to SCHED_BATCH if that fails.
-On multiprocessor systems, \fBminerd\fR
+On multiprocessor systems, \fBsugarmaker\fR
 automatically sets the CPU affinity of miner threads
 if the number of threads is a multiple of the number of processors.
 .SH EXAMPLES
-To connect to a Litecoin mining pool that provides a Stratum server
+To connect to a Sugarchain mining pool that provides a Stratum server
 at example.com on port 3333, authenticating as worker "foo" with password "bar":
 .PP
 .nf
 .RS
-minerd \-o stratum+tcp://example.com:3333 \-O foo:bar
+sugarmaker \-o stratum+tcp://1pool.sugarchain.org:3333 \-O foo:bar
 .RE
 .fi
 .PP
-To mine to a local Bitcoin testnet instance running on port 18332,
+To mine to a local Sugarchain testnet instance running on port 44229,
 authenticating with username "rpcuser" and password "rpcpass":
 .PP
 .nf
 .RS
-minerd \-a sha256d \-o http://localhost:18332 \-O rpcuser:rpcpass \\
-	\-\-coinbase\-addr=mpXwg4jMtRhuSpVq4xS3HFHmCmWp9NyGKt
+sugarmaker \-o http://localhost:44229 \-O rpcuser:rpcpass \\
+	\-\-coinbase\-addr=tugar1qkvl32hmzvgtwpu7v70k5u0kcv9s4uqy4twjge8
 .RE
 .fi
 .PP
@@ -58,25 +58,19 @@ omitting the per-thread hashmeter output:
 .PP
 .nf
 .RS
-minerd \-BSq \-o http://my.server:9327
+sugarmaker \-BSq \-o http://my.server:9327
 .RE
 .fi
 .SH OPTIONS
 .TP
 \fB\-a\fR, \fB\-\-algo\fR=\fIALGORITHM\fR
 Set the hashing algorithm to use.
-Default is scrypt.
+Default is YespowerSugar.
 Possible values are:
 .RS 11
 .TP 10
-.B scrypt
-scrypt(1024, 1, 1) (used by Litecoin)
-.TP
-.B scrypt:\fIN\fR
-scrypt(\fIN\fR, 1, 1) (\fIN\fR must be a power of 2 greater than 1)
-.TP
-.B sha256d
-SHA-256d (used by Bitcoin)
+.B YespowerSugar
+Yespower(N=2048, R=32) (used by Sugarchain)
 .RE
 .TP
 \fB\-\-benchmark\fR
@@ -108,7 +102,7 @@ Sample configuration file:
 
 .nf
 	{
-		"url": "stratum+tcp://example.com:3333",
+		"url": "stratum+tcp://1pool.sugarchain.org:3333",
 		"userpass": "foo:bar",
 		"retry-pause": "10",
 		"quiet": true
@@ -220,7 +214,16 @@ Sets the proxy server to use if no protocol-specific proxy is set.
 Using an environment variable to set the proxy has the same effect as
 using the \fB\-x\fR option.
 .SH AUTHOR
-Most of the code in the current version of minerd was written by
-Pooler <pooler@litecoinpool.org> with contributions from others.
-
-The original minerd was written by Jeff Garzik <jeff@garzik.org>.
+Most of the code in the current version of sugarmaker was written by,
+.PP
+.RS
+.TP
+Jeff Garzik <jeff@garzik.org>
+.TP
+Pooler <pooler@litecoinpool.org>
+.TP
+Alexander Peslyak <solar@openwall.com>
+.TP
+Kanon <decryp2kanon@gmail.com>
+.RE
+.PP
