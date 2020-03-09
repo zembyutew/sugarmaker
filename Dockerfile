@@ -1,22 +1,22 @@
 #
-# Dockerfile for cpuminer
+# Dockerfile for sugarmaker
 # usage: docker run creack/cpuminer --url xxxx --user xxxx --pass xxxx
 # ex: docker run creack/cpuminer --url stratum+tcp://ltc.pool.com:80 --user creack.worker1 --pass abcdef
 #
 #
 
 FROM            ubuntu:16.04
-MAINTAINER      Guillaume J. Charmes <guillaume@charmes.net>
+MAINTAINER      kanon <decryp2kanon@gmail.com>
 
 RUN             apt-get update -qq && \
                 apt-get install -qqy automake libcurl4-openssl-dev git make gcc
 
-RUN             git clone https://github.com/pooler/cpuminer
+RUN             git clone https://github.com/decryp2kanon/sugarmaker
 
-RUN             cd cpuminer && \
+RUN             cd sugarmaker && \
                 ./autogen.sh && \
-                ./configure CFLAGS="-O3" && \
+                ./configure CFLAGS='-O2 -fomit-frame-pointer' && \
                 make
 
-WORKDIR         /cpuminer
-ENTRYPOINT      ["./minerd"]
+WORKDIR         /sugarmaker
+ENTRYPOINT      ["./sugarmaker"]
