@@ -3,6 +3,10 @@ sugarmaker
 sugarmaker.exe
 *.o
 
+# old binary
+minerd
+minerd.exe
+
 autom4te.cache
 .deps
 
@@ -26,5 +30,5 @@ config.sub
 
 mingw32-config.cache
 
-# kanon
+# yespower
 yespower-1.0.1/.dirstamp
