@@ -1,5 +1,6 @@
 # CLEAN
 make distclean || echo clean
+rm -f config.status
 
 # BUILD
 ./autogen.sh
