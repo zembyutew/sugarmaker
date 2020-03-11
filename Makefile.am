@@ -16,7 +16,6 @@ dist_man_MANS		= sugarmaker.1
 
 sugarmaker_SOURCES	=	elist.h miner.h compat.h \
 									cpu-miner.c util.c \
-									cpuinfo.c \
 									sha2.c \
 									yespower-1.0.1/sha256.c yespower-1.0.1/yespower-opt.c YespowerSugar.c
 
