@@ -17,12 +17,7 @@ libcurl	https://curl.haxx.se/libcurl/
 
 - On recent Debian and Ubuntu, these can be installed with:
 ```
-apt-get install build-essential libcurl4-openssl-dev
-```
-
-- On recent Fedora, RHEL, CentOS, these can be installed with:
-```
-yum install autoconf automake make gcc libcurl-devel
+sudo apt-get install build-essential libcurl4-openssl-dev autotools-dev automake
 ```
 
 ### Basic Unix build instructions:
