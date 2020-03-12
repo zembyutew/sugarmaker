@@ -17,13 +17,13 @@ libcurl	https://curl.haxx.se/libcurl/
 
 - On recent Debian and Ubuntu, these can be installed with:
 ```
-sudo apt-get install build-essential libcurl4-openssl-dev autotools-dev automake
+sudo apt-get install build-essential libcurl4-openssl-dev autotools-dev automake libtool
 ```
 
 ### Basic Unix build instructions:
 ```
 ./autogen.sh
-./configure
+./configure CFLAGS="-Wall -O2 -fomit-frame-pointer" CXXFLAGS="$CFLAGS -std=gnu++11"
 make
 ```
 
