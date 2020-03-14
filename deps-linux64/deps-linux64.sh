@@ -1,4 +1,5 @@
-# try on virtualbox ubuntu 16.04
+# WARNING
+# Try on Virtual Machine (Ubuntu 16.04)
 # https://lxadm.com/Static_compilation_of_cpuminer
 
 # DEPENDS
@@ -16,7 +17,8 @@ cd ..
 wget https://github.com/curl/curl/releases/download/curl-7_57_0/curl-7.57.0.tar.gz
 tar -xvzf curl-7.57.0.tar.gz
 cd curl-7.57.0/
-.buildconf | grep "buildconf: OK"
+./buildconf | grep "buildconf: OK"
 ./configure --disable-shared | grep "Static=yes"
 make -j$(nproc)
 sudo make install
+cd ../..
