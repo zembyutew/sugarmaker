@@ -41,7 +41,7 @@ file sugarmaker | grep "statically linked"
 RELEASE=sugarmaker-v2.5.0-sugar1-armv7l-static
 rm -rf $RELEASE
 mkdir $RELEASE
-cp ./depends/sh/*.sh $RELEASE/
+cp ./mining-script/sh/*.sh $RELEASE/
 cp sugarmaker $RELEASE/
 
 # SIGN
