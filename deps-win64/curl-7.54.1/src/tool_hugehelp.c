@@ -1,7 +1,7 @@
 #include "tool_setup.h"
 /*
  * NEVER EVER edit this manually, fix the mkhelp.pl script instead!
- * Generation time: Sun Mar 15 00:51:54 2020
+ * Generation time: Sun Mar 15 05:36:05 2020
  */
 #ifdef USE_MANUAL
 #include "tool_hugehelp.h"
