@@ -17,7 +17,7 @@ cp ./depends/curl-7.40.0-devel-mingw64/bin/libcurl.dll $RELEASE/
 cp ./depends/curl-7.40.0-devel-mingw64/bin/libeay32.dll $RELEASE/
 cp ./depends/curl-7.40.0-devel-mingw64/bin/ssleay32.dll $RELEASE/
 cp ./depends/curl-7.40.0-devel-mingw64/bin/zlib1.dll $RELEASE/
-cp ./depends/bat/*.bat $RELEASE/
+cp ./mining-script/bat/*.bat $RELEASE/
 mv sugarmaker.exe $RELEASE/
 
 # SIGN

@@ -19,7 +19,7 @@ RELEASE=sugarmaker-v2.5.0-sugar1-w32-static-msse2
 rm -rf $RELEASE
 mkdir $RELEASE
 
-cp ./depends/bat/*.bat $RELEASE/
+cp ./mining-script/bat/*.bat $RELEASE/
 mv sugarmaker.exe $RELEASE/
 
 # SIGN
