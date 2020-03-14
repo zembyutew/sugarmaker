@@ -6,29 +6,13 @@ make distclean || echo clean
 rm -f config.status
 
 # DEPENDS
-
-## OPENSSL
-# wget https://www.openssl.org/source/openssl-1.1.0g.tar.gz
-# tar -xvzf openssl-1.1.0g.tar.gz
-# cd openssl-1.1.0g/
-# ./config no-shared
-# make -j$(nproc)
-# sudo make install
-# cd ..
-
-## CURL
-# wget https://github.com/curl/curl/releases/download/curl-7_57_0/curl-7.57.0.tar.gz
-# tar -xvzf curl-7.57.0.tar.gz
-# cd curl-7.57.0/
-# .buildconf | grep "buildconf: OK"
-# ./configure --disable-shared | grep "Static=yes"
-# make -j$(nproc)
-# sudo make install
+# cd deps-linux64/
+# ./deps-linux64.sh
 # cd ..
 
 # BUILD
 ./autogen.sh
-CFLAGS="-Wall -O2 -fomit-frame-pointer" CXXFLAGS="$CFLAGS -std=gnu++11" LDFLAGS="-static" ./configure --with-curl=/usr/local/
+./configure CFLAGS="-Wall -O2 -fomit-frame-pointer" CXXFLAGS="$CFLAGS -std=gnu++11" LDFLAGS="-static"
 make
 strip -s sugarmaker
 
