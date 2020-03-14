@@ -15,7 +15,7 @@ make
 strip -p --strip-debug --strip-unneeded sugarmaker.exe
 
 # PACKAGE
-RELEASE=sugarmaker-v2.5.0-sugar1-w64-static
+RELEASE=sugarmaker-v2.5.0-sugar2-w64-static
 rm -rf $RELEASE
 mkdir $RELEASE
 
