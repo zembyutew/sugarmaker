@@ -12,7 +12,7 @@ rm -f config.status
 
 # BUILD
 ./autogen.sh
-./configure CFLAGS="-Wall -O2 -fomit-frame-pointer" CXXFLAGS="$CFLAGS -std=gnu++11" LDFLAGS="-static"
+./configure CFLAGS="-Wall -O2 -fomit-frame-pointer" LDFLAGS="-static" CXXFLAGS="$CFLAGS -std=gnu++11" --with-curl-static=/usr/local/
 make
 strip -s sugarmaker
 

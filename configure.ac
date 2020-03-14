@@ -74,6 +74,27 @@ else
 	JANSSON_LIBS=-ljansson
 fi
 
+# libcurl install path (for mingw : --with-curl-static=/usr/local)
+AC_ARG_WITH([curl],
+  [  --with-curl-static=PATH         prefix where curl is installed [default=/usr]])
+
+if test -n "$with_curl_static"; then
+	LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_curl_static/include"
+	LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_curl_static/include"
+	LIBCURL_LDFLAGS="$LIBCURL_LDFLAGS -L$with_curl_static/lib"
+fi
+
+# SSL install path (for mingw : --with-crypto-static=/usr/local/ssl)
+AC_ARG_WITH([crypto],
+   [  --with-crypto-static=PATH       prefix where openssl crypto is installed [default=/usr]])
+
+if test -n "$with_crypto_static" ; then
+   LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_crypto_static/include"
+   LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_crypto_static/include"
+   LIBCURL_LDFLAGS="-L$with_crypto_static/lib $LIBCURL_LDFLAGS"
+   LIBCURL="$LIBCURL -lssl -lcrypto"
+fi
+
 LIBCURL_CHECK_CONFIG(, 7.15.2, ,
   [AC_MSG_ERROR([Missing required libcurl >= 7.15.2])])
 
