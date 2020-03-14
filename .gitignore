@@ -37,11 +37,11 @@ yespower-1.0.1/.dirstamp
 sugarmaker-v*/
 
 # deps-win64
-deps-win64/curl-*
-deps-win64/pthread-*
-deps-win64/x86_64-w64-mingw32/
+#deps-win64/curl-*
+#deps-win64/pthread-*
+#deps-win64/x86_64-w64-mingw32/
 
 # deps-win32
-deps-win32/curl-*
-deps-win32/pthread-*
-deps-win32/i686-w64-mingw32/
+#deps-win32/curl-*
+#deps-win32/pthread-*
+#deps-win32/i686-w64-mingw32/
