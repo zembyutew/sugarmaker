@@ -1,3 +1,14 @@
+Version 2.5.0-sugar3 - March 16, 2020
+
+- Fix all static binaries
+  * aarch64 (Smartphone)
+  * armv7l (RaspberryPi)
+  * Linux32
+  * Linux64
+  * OSX (Apple Mac)
+  * Windows 32-bit
+  * Windows 64-bit
+
 Version 2.5.0-sugar2 - March 14, 2020
 
 - Add YespowerSugar

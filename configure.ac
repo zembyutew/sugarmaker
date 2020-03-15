@@ -1,4 +1,4 @@
-AC_INIT([sugarmaker], [2.5.0-sugar2])
+AC_INIT([sugarmaker], [2.5.0-sugar3])
 
 AC_PREREQ([2.59c])
 AC_CANONICAL_SYSTEM
