@@ -94,7 +94,7 @@ case $target in
 		# AC_SUBST(LIBCURL_LDFLAGS)
 		;;
 
-	*darwin*)
+	*-apple-*)
 		if test -z "$LIBCURL"; then
 			LIBCURL="-lcurl"
 		fi
