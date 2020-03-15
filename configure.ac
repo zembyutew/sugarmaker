@@ -54,8 +54,6 @@ case $target in
 		have_win32=true
     PTHREAD_FLAGS=""
     WS2_LIBS="-lws2_32"
-		LIBCURL_CHECK_CONFIG(, 7.15.2, ,
-		  [AC_MSG_ERROR([Missing required libcurl >= 7.15.2])])
     ;;
 
 	*linux*)
