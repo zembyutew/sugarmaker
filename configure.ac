@@ -129,6 +129,13 @@ case $target in
 		;;
 esac
 
+case $target in
+  *-*-mingw*)
+		LIBCURL_CHECK_CONFIG(, 7.15.2, ,
+		  [AC_MSG_ERROR([Missing required libcurl >= 7.15.2])])
+		;;
+esac
+
 AC_CHECK_LIB(jansson, json_loads, request_jansson=false, request_jansson=true)
 AC_CHECK_LIB([pthread], [pthread_create], PTHREAD_LIBS="-lpthread",
   AC_CHECK_LIB([pthreadGC2], [pthread_create], PTHREAD_LIBS="-lpthreadGC2",
