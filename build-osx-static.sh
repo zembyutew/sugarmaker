@@ -5,6 +5,11 @@
 make distclean || echo clean
 rm -f config.status
 
+# HOTFIX for OSX
+./autogen.sh
+sed -i '' '/LIBCURL_CHECK_CONFIG/d' ./configure
+sed -i '' '/AC_MSG_ERROR/d' ./configure
+
 # BUILD
 ./autogen.sh
 # CFLAGS="-Wall -O2 -fomit-frame-pointer" CXXFLAGS="$CFLAGS -std=gnu++11" LDFLAGS="-static" ./configure --with-curl=/usr/local/
