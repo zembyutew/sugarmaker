@@ -1,4 +1,5 @@
 # SUGARMAKER
+![GitHub All Releases](https://img.shields.io/github/downloads/decryp2kanon/sugarmaker/total)
 
 This is a multi-threaded CPU miner for ***Sugarchain***, fork of solardiz's (Resistance) fork of pooler's (Litecoin) fork of Jeff Garzik's (Bitcoin) reference cpuminer. This fork is supporting only Yespower variant algorithms.
 
