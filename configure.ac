@@ -49,84 +49,85 @@ AC_CHECK_FUNCS([getopt_long])
 PTHREAD_FLAGS="-pthread"
 WS2_LIBS=""
 
+# conditional builds for all platforms
 case $target in
-  *-*-mingw*)
-		have_win32=true
-    PTHREAD_FLAGS=""
-    WS2_LIBS="-lws2_32"
-    ;;
+*-*-mingw*)
+	have_win32=true
+	PTHREAD_FLAGS=""
+	WS2_LIBS="-lws2_32"
+	;;
 
-	*linux*)
-		if test -z "$LIBCURL"; then
-			LIBCURL="-lcurl"
-		fi
+*linux*)
+	if test -z "$LIBCURL"; then
+	LIBCURL="-lcurl"
+	fi
 
-		# libcurl install path (for mingw : --with-curl=/usr/local)
-		AC_ARG_WITH([curl],
-		  [  --with-curl=PATH         prefix where curl is installed [default=/usr]])
+	# libcurl install path (for mingw : --with-curl=/usr/local)
+	AC_ARG_WITH([curl],
+		[  --with-curl=PATH         prefix where curl is installed [default=/usr]])
 
-		if test -n "$with_curl"; then
-			LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_curl/include"
-			LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_curl/include"
-			LIBCURL_LDFLAGS="$LIBCURL_LDFLAGS -L$with_curl/lib"
-		fi
+	if test -n "$with_curl"; then
+	LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_curl/include"
+	LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_curl/include"
+	LIBCURL_LDFLAGS="$LIBCURL_LDFLAGS -L$with_curl/lib"
+	fi
 
-		# SSL install path (for mingw : --with-crypto=/usr/local/ssl)
-		AC_ARG_WITH([crypto],
-		   [  --with-crypto=PATH       prefix where openssl crypto is installed [default=/usr]])
+	# SSL install path (for mingw : --with-crypto=/usr/local/ssl)
+	AC_ARG_WITH([crypto],
+		[  --with-crypto=PATH       prefix where openssl crypto is installed [default=/usr]])
 
-		if test -n "$with_crypto" ; then
-		   LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_crypto/include"
-		   LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_crypto/include"
-		   LIBCURL_LDFLAGS="-L$with_crypto/lib $LIBCURL_LDFLAGS"
-		   LIBCURL="$LIBCURL -lssl -lcrypto"
-		fi
+	if test -n "$with_crypto" ; then
+	LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_crypto/include"
+	LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_crypto/include"
+	LIBCURL_LDFLAGS="-L$with_crypto/lib $LIBCURL_LDFLAGS"
+	LIBCURL="$LIBCURL -lssl -lcrypto"
+	fi
 
-		CFLAGS="$CFLAGS $LIBCURL_CFLAGS"
-		CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
-		LDFLAGS="$LDFLAGS $LIBCURL_LDFLAGS"
+	CFLAGS="$CFLAGS $LIBCURL_CFLAGS"
+	CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
+	LDFLAGS="$LDFLAGS $LIBCURL_LDFLAGS"
 
-		AC_SUBST(LIBCURL)
-		# AC_SUBST(LIBCURL_CFLAGS)
-		# AC_SUBST(LIBCURL_CPPFLAGS)
-		# AC_SUBST(LIBCURL_LDFLAGS)
-		;;
+	AC_SUBST(LIBCURL)
+	# AC_SUBST(LIBCURL_CFLAGS)
+	# AC_SUBST(LIBCURL_CPPFLAGS)
+	# AC_SUBST(LIBCURL_LDFLAGS)
+	;;
 
-	*-apple-*)
-		if test -z "$LIBCURL"; then
-			LIBCURL="-lcurl"
-		fi
+*-apple-*)
+	if test -z "$LIBCURL"; then
+		LIBCURL="-lcurl"
+	fi
 
-		# libcurl install path (for mingw : --with-curl=/usr/local)
-		AC_ARG_WITH([curl],
-		  [  --with-curl=PATH         prefix where curl is installed [default=/usr]])
+	# libcurl install path (for mingw : --with-curl=/usr/local)
+	AC_ARG_WITH([curl],
+	  [  --with-curl=PATH         prefix where curl is installed [default=/usr]])
 
-		if test -n "$with_curl"; then
-			LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_curl/include"
-			LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_curl/include"
-			LIBCURL_LDFLAGS="$LIBCURL_LDFLAGS -L$with_curl/lib"
-		fi
+	if test -n "$with_curl"; then
+		LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_curl/include"
+		LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_curl/include"
+		LIBCURL_LDFLAGS="$LIBCURL_LDFLAGS -L$with_curl/lib"
+	fi
 
-		# SSL install path (for mingw : --with-crypto=/usr/local/ssl)
-		AC_ARG_WITH([crypto],
-		   [  --with-crypto=PATH       prefix where openssl crypto is installed [default=/usr]])
+	# SSL install path (for mingw : --with-crypto=/usr/local/ssl)
+	AC_ARG_WITH([crypto],
+	   [  --with-crypto=PATH       prefix where openssl crypto is installed [default=/usr]])
 
-		if test -n "$with_crypto" ; then
-		   LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_crypto/include"
-		   LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_crypto/include"
-		   LIBCURL_LDFLAGS="-L$with_crypto/lib $LIBCURL_LDFLAGS"
-		   LIBCURL="$LIBCURL -lssl -lcrypto"
-		fi
+	if test -n "$with_crypto" ; then
+	   LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_crypto/include"
+	   LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_crypto/include"
+	   LIBCURL_LDFLAGS="-L$with_crypto/lib $LIBCURL_LDFLAGS"
+	   LIBCURL="$LIBCURL -lssl -lcrypto"
+	fi
 
-		CFLAGS="$CFLAGS $LIBCURL_CFLAGS"
-		CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
-		LDFLAGS="$LDFLAGS $LIBCURL_LDFLAGS"
+	CFLAGS="$CFLAGS $LIBCURL_CFLAGS"
+	CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
+	LDFLAGS="$LDFLAGS $LIBCURL_LDFLAGS"
 
-		AC_SUBST(LIBCURL)
-		# AC_SUBST(LIBCURL_CFLAGS)
-		# AC_SUBST(LIBCURL_CPPFLAGS)
-		# AC_SUBST(LIBCURL_LDFLAGS)
-		;;
+	AC_SUBST(LIBCURL)
+	# AC_SUBST(LIBCURL_CFLAGS)
+	# AC_SUBST(LIBCURL_CPPFLAGS)
+	# AC_SUBST(LIBCURL_LDFLAGS)
+	;;
 esac
 
 case $target in

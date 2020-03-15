@@ -12,9 +12,6 @@ sed -i '' '/AC_MSG_ERROR/d' ./configure
 
 # BUILD
 ./autogen.sh
-# CFLAGS="-Wall -O2 -fomit-frame-pointer" CXXFLAGS="$CFLAGS -std=gnu++11" LDFLAGS="-static" ./configure --with-curl=/usr/local/
-# ./configure CFLAGS="-march=native" --with-crypto=/usr/local/opt/openssl  --with-curl
-# ./configure CFLAGS="-Wall -O2 -fomit-frame-pointer" --with-crypto=/usr/local/opt/openssl --with-curl
 ./configure CFLAGS="-Wall -O2 -fomit-frame-pointer" --with-crypto=/usr/local/opt/openssl --with-curl
 make
 strip sugarmaker
