@@ -54,7 +54,43 @@ case $target in
     have_win32=true
     PTHREAD_FLAGS=""
     WS2_LIBS="-lws2_32"
+		LIBCURL_CHECK_CONFIG(, 7.15.2, ,
+		  [AC_MSG_ERROR([Missing required libcurl >= 7.15.2])])
     ;;
+	*linux*)
+		if test -z "$LIBCURL"; then
+			LIBCURL="-lcurl"
+		fi
+
+		# libcurl install path (for mingw : --with-curl=/usr/local)
+		AC_ARG_WITH([curl],
+		  [  --with-curl=PATH         prefix where curl is installed [default=/usr]])
+
+		if test -n "$with_curl"; then
+			LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_curl/include"
+			LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_curl/include"
+			LIBCURL_LDFLAGS="$LIBCURL_LDFLAGS -L$with_curl/lib"
+		fi
+
+		# SSL install path (for mingw : --with-crypto=/usr/local/ssl)
+		AC_ARG_WITH([crypto],
+		   [  --with-crypto=PATH       prefix where openssl crypto is installed [default=/usr]])
+
+		if test -n "$with_crypto" ; then
+		   LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_crypto/include"
+		   LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_crypto/include"
+		   LIBCURL_LDFLAGS="-L$with_crypto/lib $LIBCURL_LDFLAGS"
+		   LIBCURL="$LIBCURL -lssl -lcrypto"
+		fi
+
+		CFLAGS="$CFLAGS $LIBCURL_CFLAGS"
+		CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
+		LDFLAGS="$LDFLAGS $LIBCURL_LDFLAGS"
+
+		AC_SUBST(LIBCURL)
+		# AC_SUBST(LIBCURL_CFLAGS)
+		# AC_SUBST(LIBCURL_CPPFLAGS)
+		# AC_SUBST(LIBCURL_LDFLAGS)
 esac
 
 AC_CHECK_LIB(jansson, json_loads, request_jansson=false, request_jansson=true)
@@ -73,40 +109,6 @@ then
 else
 	JANSSON_LIBS=-ljansson
 fi
-
-if test -z "$LIBCURL"; then
-	LIBCURL="-lcurl"
-fi
-
-# libcurl install path (for mingw : --with-curl=/usr/local)
-AC_ARG_WITH([curl],
-  [  --with-curl=PATH         prefix where curl is installed [default=/usr]])
-
-if test -n "$with_curl"; then
-	LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_curl/include"
-	LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_curl/include"
-	LIBCURL_LDFLAGS="$LIBCURL_LDFLAGS -L$with_curl/lib"
-fi
-
-# SSL install path (for mingw : --with-crypto=/usr/local/ssl)
-AC_ARG_WITH([crypto],
-   [  --with-crypto=PATH       prefix where openssl crypto is installed [default=/usr]])
-
-if test -n "$with_crypto" ; then
-   LIBCURL_CFLAGS="$LIBCURL_CFLAGS -I$with_crypto/include"
-   LIBCURL_CPPFLAGS="$LIBCURL_CPPFLAGS -I$with_crypto/include"
-   LIBCURL_LDFLAGS="-L$with_crypto/lib $LIBCURL_LDFLAGS"
-   LIBCURL="$LIBCURL -lssl -lcrypto"
-fi
-
-CFLAGS="$CFLAGS $LIBCURL_CFLAGS"
-CPPFLAGS="$CPPFLAGS $LIBCURL_CPPFLAGS"
-LDFLAGS="$LDFLAGS $LIBCURL_LDFLAGS"
-
-AC_SUBST(LIBCURL)
-# AC_SUBST(LIBCURL_CFLAGS)
-# AC_SUBST(LIBCURL_CPPFLAGS)
-# AC_SUBST(LIBCURL_LDFLAGS)
 
 AC_SUBST(JANSSON_LIBS)
 AC_SUBST(PTHREAD_FLAGS)
