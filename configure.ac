@@ -50,7 +50,7 @@ PTHREAD_FLAGS="-pthread"
 WS2_LIBS=""
 
 case $target in
-  *mingw*)
+  *-*-mingw*)
 		have_win32=true
     PTHREAD_FLAGS=""
     WS2_LIBS="-lws2_32"
