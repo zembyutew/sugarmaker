@@ -130,8 +130,6 @@ case $target in
 esac
 
 case $target in
-	*-apple-*)
-		;;
   *-*-mingw*)
 		LIBCURL_CHECK_CONFIG(, 7.15.2, ,
 		  [AC_MSG_ERROR([Missing required libcurl >= 7.15.2])])
