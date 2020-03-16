@@ -17,7 +17,9 @@ dist_man_MANS		= sugarmaker.1
 sugarmaker_SOURCES	=	elist.h miner.h compat.h \
 									cpu-miner.c util.c \
 									sha2.c \
-									yespower-1.0.1/sha256.c yespower-1.0.1/yespower-opt.c YespowerSugar.c
+									yespower-1.0.1/sha256.c yespower-1.0.1/yespower-opt.c \
+									YespowerSugar.c \
+									YespowerIso.c
 
 sugarmaker_LDFLAGS	= $(PTHREAD_FLAGS)
 sugarmaker_LDADD		= @LIBCURL@ @JANSSON_LIBS@ @PTHREAD_LIBS@ @WS2_LIBS@
