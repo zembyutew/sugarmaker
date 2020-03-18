@@ -102,12 +102,14 @@ struct workio_cmd {
 
 enum algos {
 	ALGO_SUGAR_YESPOWER_1_0_1,
-	ALGO_ISO_YESPOWER_1_0_1
+	ALGO_ISO_YESPOWER_1_0_1,
+	ALGO_RES_YESPOWER_1_0_1
 };
 
 static const char *algo_names[] = {
 	[ALGO_SUGAR_YESPOWER_1_0_1]	= "YespowerSugar",
-	[ALGO_ISO_YESPOWER_1_0_1]	= "YespowerIso"
+	[ALGO_ISO_YESPOWER_1_0_1]	= "YespowerIso",
+	[ALGO_RES_YESPOWER_1_0_1]	= "YespowerRes"
 };
 
 bool opt_debug = false;
@@ -170,6 +172,7 @@ Options:\n\
   -a, --algo=ALGO       specify the algorithm to use\n\
                           YespowerSugar (default)\n\
                           YespowerIso\n\
+                          YespowerRes\n\
   -o, --url=URL         URL of mining server\n\
   -O, --userpass=U:P    username:password pair for mining server\n\
   -u, --user=USERNAME   username for mining server\n\
@@ -1183,6 +1186,9 @@ static void *miner_thread(void *userdata)
 			case ALGO_ISO_YESPOWER_1_0_1:
 				max64 = 499;
 				break;
+			case ALGO_RES_YESPOWER_1_0_1:
+				max64 = 499;
+				break;
 			}
 		}
 		if (work.data[19] + max64 > end_nonce)
@@ -1204,6 +1210,12 @@ static void *miner_thread(void *userdata)
 
 		case ALGO_ISO_YESPOWER_1_0_1:
 			rc = scanhash_iso_yespower(
+				thr_id, work.data, work.target, max_nonce, &hashes_done
+			);
+			break;
+
+		case ALGO_RES_YESPOWER_1_0_1:
+			rc = scanhash_res_yespower(
 				thr_id, work.data, work.target, max_nonce, &hashes_done
 			);
 			break;

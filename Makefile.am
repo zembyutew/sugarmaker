@@ -19,7 +19,8 @@ sugarmaker_SOURCES	=	elist.h miner.h compat.h \
 									sha2.c \
 									yespower-1.0.1/sha256.c yespower-1.0.1/yespower-opt.c \
 									YespowerSugar.c \
-									YespowerIso.c
+									YespowerIso.c \
+									YespowerRes.c
 
 sugarmaker_LDFLAGS	= $(PTHREAD_FLAGS)
 sugarmaker_LDADD		= @LIBCURL@ @JANSSON_LIBS@ @PTHREAD_LIBS@ @WS2_LIBS@
