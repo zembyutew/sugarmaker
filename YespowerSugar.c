@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 ArtForz, 2011-2014 pooler, 2018 The Resistance developers
+ * Copyright 2011 ArtForz, 2011-2014 pooler, 2018 The Resistance developers, 2020 The Sugarchain Yumekawa developers
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,8 +48,8 @@ int scanhash_sugar_yespower(int thr_id, uint32_t *pdata,
 		.perslen = 74
 	};
 	union {
-		uint8_t u8[80];
-		uint32_t u32[19];
+		uint8_t u8[8];
+		uint32_t u32[20];
 	} data;
 	union {
 		yespower_binary_t yb;
@@ -69,7 +69,7 @@ int scanhash_sugar_yespower(int thr_id, uint32_t *pdata,
 			abort();
 
 		if (le32dec(&hash.u32[7]) <= Htarg) {
-			for (i = 0; i < 7; i++)
+			for (i = 0; i < 8; i++)
 				hash.u32[i] = le32dec(&hash.u32[i]);
 			if (fulltest(hash.u32, ptarget)) {
 				*hashes_done = n - pdata[19] + 1;
