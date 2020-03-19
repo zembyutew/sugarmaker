@@ -22,6 +22,7 @@ sugarmaker_SOURCES	=	elist.h miner.h compat.h \
 									YespowerIso.c \
 									YespowerNull.c \
 									YespowerUrx.c \
+									YespowerLtncg.c
 
 sugarmaker_LDFLAGS	= $(PTHREAD_FLAGS)
 sugarmaker_LDADD		= @LIBCURL@ @JANSSON_LIBS@ @PTHREAD_LIBS@ @WS2_LIBS@
