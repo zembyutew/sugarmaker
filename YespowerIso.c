@@ -40,7 +40,6 @@ int scanhash_iso_yespower(int thr_id, uint32_t *pdata,
 	uint32_t max_nonce, unsigned long *hashes_done)
 {
 	static const yespower_params_t params = {
-		// yespower_iso
 		.version = YESPOWER_1_0,
 		.N = 2048,
 		.r = 32,
