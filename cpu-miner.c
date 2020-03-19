@@ -105,7 +105,6 @@ enum algos {
 	ALGO_ISO_YESPOWER_1_0_1,
 	ALGO_NULL_YESPOWER_1_0_1,
 	ALGO_URX_YESPOWER_1_0_1,
-	ALGO_LTNCG_YESPOWER_1_0_1,
 };
 
 static const char *algo_names[] = {
@@ -113,7 +112,6 @@ static const char *algo_names[] = {
 	[ALGO_ISO_YESPOWER_1_0_1]	= "YespowerIso",
 	[ALGO_NULL_YESPOWER_1_0_1]	= "YespowerNull",
 	[ALGO_URX_YESPOWER_1_0_1]	= "YespowerUrx",
-	[ALGO_LTNCG_YESPOWER_1_0_1]	= "YespowerLtncg",
 };
 
 bool opt_debug = false;
@@ -178,7 +176,6 @@ Options:\n\
                           YespowerIso: IsotopeC\n\
                           YespowerNull: CranePay, Bellcoin, Veco, SwampCoin\n\
 													YespowerUrx: UraniumX\n\
-													YespowerLtncg: LightningCash-Gold\n\
   -o, --url=URL         URL of mining server\n\
   -O, --userpass=U:P    username:password pair for mining server\n\
   -u, --user=USERNAME   username for mining server\n\
@@ -1198,9 +1195,6 @@ static void *miner_thread(void *userdata)
 			case ALGO_URX_YESPOWER_1_0_1:
 				max64 = 499;
 				break;
-			case ALGO_LTNCG_YESPOWER_1_0_1:
-				max64 = 499;
-				break;
 			}
 		}
 		if (work.data[19] + max64 > end_nonce)
@@ -1233,12 +1227,6 @@ static void *miner_thread(void *userdata)
 			break;
 
 		case ALGO_URX_YESPOWER_1_0_1:
-			rc = scanhash_urx_yespower(
-				thr_id, work.data, work.target, max_nonce, &hashes_done
-			);
-			break;
-
-		case ALGO_LTNCG_YESPOWER_1_0_1:
 			rc = scanhash_urx_yespower(
 				thr_id, work.data, work.target, max_nonce, &hashes_done
 			);
