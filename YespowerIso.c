@@ -40,7 +40,6 @@ int scanhash_iso_yespower(int thr_id, uint32_t *pdata,
 	uint32_t max_nonce, unsigned long *hashes_done)
 {
 	static const yespower_params_t params = {
-		// yespower_iso
 		.version = YESPOWER_1_0,
 		.N = 2048,
 		.r = 32,
@@ -69,7 +68,7 @@ int scanhash_iso_yespower(int thr_id, uint32_t *pdata,
 			abort();
 
 		if (le32dec(&hash.u32[7]) <= Htarg) {
-			for (i = 0; i < 8; i++)
+			for (i = 0; i < 7; i++)
 				hash.u32[i] = le32dec(&hash.u32[i]);
 			if (fulltest(hash.u32, ptarget)) {
 				*hashes_done = n - pdata[19] + 1;

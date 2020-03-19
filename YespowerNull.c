@@ -35,7 +35,7 @@
 #include <string.h>
 #include <inttypes.h>
 
-int scanhash_sugar_yespower(int thr_id, uint32_t *pdata,
+int scanhash_null_yespower(int thr_id, uint32_t *pdata,
 	const uint32_t *ptarget,
 	uint32_t max_nonce, unsigned long *hashes_done)
 {
@@ -43,8 +43,8 @@ int scanhash_sugar_yespower(int thr_id, uint32_t *pdata,
 		.version = YESPOWER_1_0,
 		.N = 2048,
 		.r = 32,
-		.pers = (const uint8_t *)"Satoshi Nakamoto 31/Oct/2008 Proof-of-work is essentially one-CPU-one-vote",
-		.perslen = 74
+		.pers = NULL,
+		.perslen = 0
 	};
 	union {
 		uint8_t u8[8];
