@@ -68,7 +68,7 @@ int scanhash_sugar_yespower(int thr_id, uint32_t *pdata,
 			abort();
 
 		if (le32dec(&hash.u32[7]) <= Htarg) {
-			for (i = 0; i < 8; i++)
+			for (i = 0; i < 7; i++)
 				hash.u32[i] = le32dec(&hash.u32[i]);
 			if (fulltest(hash.u32, ptarget)) {
 				*hashes_done = n - pdata[19] + 1;
