@@ -1,5 +1,5 @@
 /*
- * Copyright 2011 ArtForz, 2011-2014 pooler, 2018 The Resistance developers
+ * Copyright 2011 ArtForz, 2011-2014 pooler, 2018 The Resistance developers, 2020 The Sugarchain Yumekawa developers
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
