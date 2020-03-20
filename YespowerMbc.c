@@ -29,7 +29,7 @@
 #include "cpuminer-config.h"
 #include "miner.h"
 
-#include "yespower-1.0.1-power2b/yespower.h"
+#include "yespower-1.0.1-power2b/yespower-p2b.h"
 
 #include <stdlib.h>
 #include <string.h>

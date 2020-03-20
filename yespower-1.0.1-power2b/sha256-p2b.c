@@ -29,10 +29,10 @@
 #include <stdint.h>
 #include <string.h>
 
-#include "insecure_memzero.h"
-#include "sysendian.h"
+#include "insecure_memzero-p2b.h"
+#include "sysendian-p2b.h"
 
-#include "sha256.h"
+#include "sha256-p2b.h"
 
 #ifdef __ICC
 /* Miscompile with icc 14.0.0 (at least), so don't use restrict there */

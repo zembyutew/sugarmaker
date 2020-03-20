@@ -94,13 +94,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "insecure_memzero.h"
-#include "sha256.h"
-#include "sysendian.h"
+#include "insecure_memzero-p2b.h"
+#include "sha256-p2b.h"
+#include "sysendian-p2b.h"
 
-#include "yespower.h"
+#include "yespower-p2b.h"
 
-#include "yespower-platform.c"
+#include "yespower-platform-p2b.c"
 
 #if __STDC_VERSION__ >= 199901L
 /* Have restrict */
@@ -1015,7 +1015,7 @@ static void smix(uint8_t *B, size_t r, uint32_t N,
 #define smix1 smix1_1_0
 #define smix2 smix2_1_0
 #define smix smix_1_0
-#include "yespower-opt.c"
+#include "yespower-opt-p2b.c"
 #undef smix
 
 /**

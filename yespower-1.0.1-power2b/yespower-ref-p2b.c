@@ -51,10 +51,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "sha256.h"
-#include "sysendian.h"
+#include "sha256-p2b.h"
+#include "sysendian-p2b.h"
 
-#include "yespower.h"
+#include "yespower-p2b.h"
 
 static void blkcpy(uint32_t *dst, const uint32_t *src, size_t count)
 {
