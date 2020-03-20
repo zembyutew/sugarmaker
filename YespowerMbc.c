@@ -40,7 +40,7 @@ int scanhash_mbc_yespower(int thr_id, uint32_t *pdata,
 	uint32_t max_nonce, unsigned long *hashes_done)
 {
 	static const yespower_params_t params = {
-		.version = YESPOWER_1_0,
+		.version = YESPOWER_1_0_BLAKE2B,
 		.N = 2048,
 		.r = 32,
 		.pers = (const uint8_t *)"Now I am become Death, the destroyer of worlds",
