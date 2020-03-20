@@ -162,7 +162,7 @@ static void blockmix_salsa(uint32_t *B, uint32_t rounds)
 #define rmin ((PWXbytes + 127) / 128)
 
 /* Runtime derived values.  Not tunable on their own. */
-#define Swidth_to_Sbytes1(Swidth) ((1 << Swidth) * PWXsimple * 8)
+#define Swidth_to_Sbytes1_P2b(Swidth) ((1 << Swidth) * PWXsimple * 8)
 #define Swidth_to_Smask(Swidth) (((1 << Swidth) - 1) * PWXsimple * 8)
 
 typedef struct {
@@ -493,12 +493,12 @@ int yespower(yespower_local_t *local,
 		ctx.salsa20_rounds = 8;
 		ctx.PWXrounds = PWXrounds_0_5;
 		ctx.Swidth = Swidth_0_5;
-		ctx.Sbytes = 2 * Swidth_to_Sbytes1(ctx.Swidth);
+		ctx.Sbytes = 2 * Swidth_to_Sbytes1_P2b(ctx.Swidth);
 	} else {
 		ctx.salsa20_rounds = 2;
 		ctx.PWXrounds = PWXrounds_1_0;
 		ctx.Swidth = Swidth_1_0;
-		ctx.Sbytes = 3 * Swidth_to_Sbytes1(ctx.Swidth);
+		ctx.Sbytes = 3 * Swidth_to_Sbytes1_P2b(ctx.Swidth);
 	}
 	if ((S = malloc(ctx.Sbytes)) == NULL)
 		goto free_X;

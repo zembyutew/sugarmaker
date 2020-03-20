@@ -419,7 +419,7 @@ static inline uint32_t blockmix_salsa_xor(const salsa20_blk_t *restrict Bin1,
 #define PWXbytes (PWXgather * PWXsimple * 8)
 
 /* (Maybe-)runtime derived values.  Not tunable on their own. */
-#define Swidth_to_Sbytes1(Swidth) ((1 << (Swidth)) * PWXsimple * 8)
+#define Swidth_to_Sbytes1_P2b(Swidth) ((1 << (Swidth)) * PWXsimple * 8)
 #define Swidth_to_Smask(Swidth) (((1 << (Swidth)) - 1) * PWXsimple * 8)
 #define Smask_to_Smask2(Smask) (((uint64_t)(Smask) << 32) | (Smask))
 
@@ -1059,15 +1059,15 @@ int yespower_p2b(yespower_local_t *local,
 	if (version == YESPOWER_0_5) {
 		XY_size = B_size * 2;
 		Swidth = Swidth_0_5;
-		ctx.Sbytes = 2 * Swidth_to_Sbytes1(Swidth);
+		ctx.Sbytes = 2 * Swidth_to_Sbytes1_P2b(Swidth);
 	} else if (version == YESPOWER_1_0) {
 		XY_size = B_size + 64;
 		Swidth = Swidth_1_0;
-		ctx.Sbytes = 3 * Swidth_to_Sbytes1(Swidth);
+		ctx.Sbytes = 3 * Swidth_to_Sbytes1_P2b(Swidth);
 	} else if (version == YESPOWER_1_0_BLAKE2B) {
 		XY_size = B_size + 64;
 		Swidth = Swidth_1_0;
-		ctx.Sbytes = 3 * Swidth_to_Sbytes1(Swidth);
+		ctx.Sbytes = 3 * Swidth_to_Sbytes1_P2b(Swidth);
 	}
 	need = B_size + V_size + XY_size + ctx.Sbytes;
 	if (local->aligned_size < need) {
@@ -1081,7 +1081,7 @@ int yespower_p2b(yespower_local_t *local,
 	XY = (salsa20_blk_t *)((uint8_t *)V + V_size);
 	S = (uint8_t *)XY + XY_size;
 	ctx.S0 = S;
-	ctx.S1 = S + Swidth_to_Sbytes1(Swidth);
+	ctx.S1 = S + Swidth_to_Sbytes1_P2b(Swidth);
 
 	// SHA256_Buf(src, srclen, sha256); // Move to each loop
 
@@ -1101,7 +1101,7 @@ int yespower_p2b(yespower_local_t *local,
 		}
 	} else if (version == YESPOWER_1_0) {
 		SHA256_Buf(src, srclen, sha256);
-		ctx.S2 = S + 2 * Swidth_to_Sbytes1(Swidth);
+		ctx.S2 = S + 2 * Swidth_to_Sbytes1_P2b(Swidth);
 		ctx.w = 0;
 
 		if (pers) {
@@ -1118,7 +1118,7 @@ int yespower_p2b(yespower_local_t *local,
 		    sha256, sizeof(sha256), (uint8_t *)dst);
 	} else if (version == YESPOWER_1_0_BLAKE2B) {
 		blake2b_hash(blake2b, src, srclen);
-		ctx.S2 = S + 2 * Swidth_to_Sbytes1(Swidth);
+		ctx.S2 = S + 2 * Swidth_to_Sbytes1_P2b(Swidth);
 		ctx.w = 0;
 
 		if (pers) {
