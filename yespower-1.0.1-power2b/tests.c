@@ -85,7 +85,7 @@ static void print_yespower(yespower_version_t version, uint32_t N, uint32_t r,
 		params.perslen = sizeof(src);
 	}
 
-	if (yespower_tls(src, sizeof(src), &params, &dst)) {
+	if (yespower_tls_p2b(src, sizeof(src), &params, &dst)) {
 		puts("FAILED");
 		return;
 	}
@@ -123,7 +123,7 @@ static void print_yespower_loop(yespower_version_t version, const char *pers)
 				.pers = (const uint8_t *)pers,
 				.perslen = pers ? strlen(pers) : 0
 			};
-			if (yespower_tls(src, sizeof(src), &params, &dst)) {
+			if (yespower_tls_p2b(src, sizeof(src), &params, &dst)) {
 				puts("FAILED");
 				return;
 			}

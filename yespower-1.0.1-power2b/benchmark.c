@@ -79,7 +79,7 @@ int main(int argc, const char * const *argv)
 	for (i = 0; i < sizeof(src); i++)
 		src.u8[i] = i * 3;
 
-	if (yespower_tls(src.u8, sizeof(src), &params, &dst)) {
+	if (yespower_tls_p2b(src.u8, sizeof(src), &params, &dst)) {
 		puts("FAILED");
 		return 1;
 	}
@@ -110,7 +110,7 @@ int main(int argc, const char * const *argv)
 				p = &save[nsave++];
 #endif
 			src.u32[19] = seed + (count + i);
-			if (yespower_tls(src.u8, sizeof(src), &params, p)) {
+			if (yespower_tls_p2b(src.u8, sizeof(src), &params, p)) {
 				puts("FAILED");
 				return 1;
 			}
@@ -188,7 +188,7 @@ int main(int argc, const char * const *argv)
 
 			uint64_t start1 = time_us();
 
-			if (yespower_tls(src.u8, sizeof(src), &params, &dst)) {
+			if (yespower_tls_p2b(src.u8, sizeof(src), &params, &dst)) {
 #pragma omp critical
 				puts("FAILED");
 			}

@@ -559,7 +559,7 @@ free_V:
 	return retval;
 }
 
-int yespower_tls(const uint8_t *src, size_t srclen,
+int yespower_tls_p2b(const uint8_t *src, size_t srclen,
     const yespower_params_t *params, yespower_binary_t *dst)
 {
 /* The reference implementation doesn't use thread-local storage */

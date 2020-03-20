@@ -1143,13 +1143,13 @@ fail:
 }
 
 /**
- * yespower_tls(src, srclen, params, dst):
+ * yespower_tls_p2b(src, srclen, params, dst):
  * Compute yespower(src[0 .. srclen - 1], N, r), to be checked for "< target".
  * The memory allocation is maintained internally using thread-local storage.
  *
  * Return 0 on success; or -1 on error.
  */
-int yespower_tls(const uint8_t *src, size_t srclen,
+int yespower_tls_p2b(const uint8_t *src, size_t srclen,
     const yespower_params_t *params, yespower_binary_t *dst)
 {
 	static __thread int initialized = 0;

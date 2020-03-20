@@ -64,7 +64,7 @@ int scanhash_mbc_yespower(int thr_id, uint32_t *pdata,
 	do {
 		be32enc(&data.u32[19], ++n);
 
-		if (yespower_tls(data.u8, 80, &params, &hash.yb))
+		if (yespower_tls_p2b(data.u8, 80, &params, &hash.yb))
 			abort();
 
 		if (le32dec(&hash.u32[7]) <= Htarg) {
