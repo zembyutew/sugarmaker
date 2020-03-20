@@ -1029,7 +1029,7 @@ static void smix(uint8_t *B, size_t r, uint32_t N,
 int yespower_p2b(yespower_local_t *local,
     const uint8_t *src, size_t srclen,
     const yespower_params_t *params,
-    yespower_binary_t *dst)
+    yespower_binary_t_p2b *dst)
 {
 	yespower_version_t version = params->version;
 	uint32_t N = params->N;
@@ -1150,7 +1150,7 @@ fail:
  * Return 0 on success; or -1 on error.
  */
 int yespower_tls_p2b(const uint8_t *src, size_t srclen,
-    const yespower_params_t *params, yespower_binary_t *dst)
+    const yespower_params_t *params, yespower_binary_t_p2b *dst)
 {
 	static __thread int initialized = 0;
 	static __thread yespower_local_t local;

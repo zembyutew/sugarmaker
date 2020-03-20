@@ -73,7 +73,7 @@ int main(int argc, const char * const *argv)
 		uint8_t u8[80];
 		uint32_t u32[20];
 	} src;
-	yespower_binary_t dst;
+	yespower_binary_t_p2b dst;
 	unsigned int i;
 
 	for (i = 0; i < sizeof(src); i++)
@@ -95,7 +95,7 @@ int main(int argc, const char * const *argv)
 	unsigned int n;
 	unsigned long long count;
 #ifdef _OPENMP
-	yespower_binary_t save[NSAVE];
+	yespower_binary_t_p2b save[NSAVE];
 	unsigned int nsave = 0;
 #endif
 	uint32_t seed = start * 1812433253U;
@@ -104,7 +104,7 @@ int main(int argc, const char * const *argv)
 	count = 0;
 	do {
 		for (i = 0; i < n; i++) {
-			yespower_binary_t *p = &dst;
+			yespower_binary_t_p2b *p = &dst;
 #ifdef _OPENMP
 			if (nsave < NSAVE)
 				p = &save[nsave++];

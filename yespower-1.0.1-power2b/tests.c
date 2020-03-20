@@ -70,7 +70,7 @@ static void print_yespower(yespower_version_t version, uint32_t N, uint32_t r,
 		.perslen = pers ? strlen(pers) : 0
 	};
 	uint8_t src[80];
-	yespower_binary_t dst;
+	yespower_binary_t_p2b dst;
 	size_t i;
 
 	const char *q = (pers && pers != pers_bsty_magic) ? "\"": "";
@@ -98,7 +98,7 @@ static void print_yespower_loop(yespower_version_t version, const char *pers)
 {
 	uint32_t N, r;
 	uint8_t src[80];
-	yespower_binary_t dst, xor = {{0}};
+	yespower_binary_t_p2b dst, xor = {{0}};
 	size_t i;
 
 	printf("XOR of yespower(%u, ...) = ", (unsigned int)version);

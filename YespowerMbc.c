@@ -51,7 +51,7 @@ int scanhash_mbc_yespower(int thr_id, uint32_t *pdata,
 		uint32_t u32[20];
 	} data;
 	union {
-		yespower_binary_t yb;
+		yespower_binary_t_p2b yb;
 		uint32_t u32[7];
 	} hash;
 	uint32_t n = pdata[19] - 1;

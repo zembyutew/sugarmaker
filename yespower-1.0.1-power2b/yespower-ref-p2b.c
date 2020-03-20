@@ -455,7 +455,7 @@ static void smix(uint32_t *B, size_t r, uint32_t N,
  */
 int yespower(yespower_local_t *local,
     const uint8_t *src, size_t srclen,
-    const yespower_params_t *params, yespower_binary_t *dst)
+    const yespower_params_t *params, yespower_binary_t_p2b *dst)
 {
 	yespower_version_t version = params->version;
 	uint32_t N = params->N;
@@ -560,7 +560,7 @@ free_V:
 }
 
 int yespower_tls_p2b(const uint8_t *src, size_t srclen,
-    const yespower_params_t *params, yespower_binary_t *dst)
+    const yespower_params_t *params, yespower_binary_t_p2b *dst)
 {
 /* The reference implementation doesn't use thread-local storage */
 	return yespower(NULL, src, srclen, params, dst);
