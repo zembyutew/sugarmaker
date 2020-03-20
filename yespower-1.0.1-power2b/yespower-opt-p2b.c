@@ -1095,7 +1095,7 @@ int yespower_p2b(yespower_local_t *local,
 		    (uint8_t *)dst, sizeof(*dst));
 
 		if (pers) {
-			HMAC_SHA256_Buf(dst, sizeof(*dst), pers, perslen,
+			HMAC_SHA256_Buf_P2b(dst, sizeof(*dst), pers, perslen,
 			    sha256);
 			SHA256_Buf(sha256, sizeof(sha256), (uint8_t *)dst);
 		}
@@ -1114,7 +1114,7 @@ int yespower_p2b(yespower_local_t *local,
 		PBKDF2_SHA256_P2B(sha256, sizeof(sha256), src, srclen, 1, B, 128);
 		memcpy(sha256, B, sizeof(sha256));
 		smix_1_0(B, r, N, V, XY, &ctx);
-		HMAC_SHA256_Buf(B + B_size - 64, 64,
+		HMAC_SHA256_Buf_P2b(B + B_size - 64, 64,
 		    sha256, sizeof(sha256), (uint8_t *)dst);
 	} else if (version == YESPOWER_1_0_BLAKE2B) {
 		blake2b_hash(blake2b, src, srclen);

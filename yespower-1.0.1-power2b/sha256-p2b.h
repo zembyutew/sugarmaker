@@ -46,7 +46,7 @@ extern "C" {
 #define HMAC_SHA256_Init libcperciva_HMAC_SHA256_Init_P2B
 #define HMAC_SHA256_Update libcperciva_HMAC_SHA256_Update_P2B
 #define HMAC_SHA256_Final libcperciva_HMAC_SHA256_Final_P2B
-#define HMAC_SHA256_Buf libcperciva_HMAC_SHA256_Buf_P2B
+#define HMAC_SHA256_Buf_P2b libcperciva_HMAC_SHA256_Buf_P2B
 #define HMAC_SHA256_CTX libcperciva_HMAC_SHA256_CTX_P2B
 
 /* Context structure for SHA256 operations. */
@@ -108,11 +108,11 @@ void HMAC_SHA256_Update(HMAC_SHA256_CTX *, const void *, size_t);
 void HMAC_SHA256_Final(uint8_t[32], HMAC_SHA256_CTX *);
 
 /**
- * HMAC_SHA256_Buf(K, Klen, in, len, digest):
+ * HMAC_SHA256_Buf_P2b(K, Klen, in, len, digest):
  * Compute the HMAC-SHA256 of ${len} bytes from ${in} using the key ${K} of
  * length ${Klen}, and write the result to ${digest}.
  */
-void HMAC_SHA256_Buf(const void *, size_t, const void *, size_t, uint8_t[32]);
+void HMAC_SHA256_Buf_P2b(const void *, size_t, const void *, size_t, uint8_t[32]);
 
 /**
  * PBKDF2_SHA256_P2B(passwd, passwdlen, salt, saltlen, c, buf, dkLen):

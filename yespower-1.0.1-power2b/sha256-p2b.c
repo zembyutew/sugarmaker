@@ -476,12 +476,12 @@ HMAC_SHA256_Final(uint8_t digest[32], HMAC_SHA256_CTX * ctx)
 }
 
 /**
- * HMAC_SHA256_Buf(K, Klen, in, len, digest):
+ * HMAC_SHA256_Buf_P2b(K, Klen, in, len, digest):
  * Compute the HMAC-SHA256 of ${len} bytes from ${in} using the key ${K} of
  * length ${Klen}, and write the result to ${digest}.
  */
 void
-HMAC_SHA256_Buf(const void * K, size_t Klen, const void * in, size_t len,
+HMAC_SHA256_Buf_P2b(const void * K, size_t Klen, const void * in, size_t len,
     uint8_t digest[32])
 {
 	HMAC_SHA256_CTX ctx;

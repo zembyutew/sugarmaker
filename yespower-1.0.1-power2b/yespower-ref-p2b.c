@@ -535,12 +535,12 @@ int yespower(yespower_local_t *local,
 		    (uint8_t *)B, B_size, 1, (uint8_t *)dst, sizeof(*dst));
 
 		if (pers) {
-			HMAC_SHA256_Buf(dst, sizeof(*dst), pers, perslen,
+			HMAC_SHA256_Buf_P2b(dst, sizeof(*dst), pers, perslen,
 			    (uint8_t *)sha256);
 			SHA256_Buf(sha256, sizeof(sha256), (uint8_t *)dst);
 		}
 	} else {
-		HMAC_SHA256_Buf((uint8_t *)B + B_size - 64, 64,
+		HMAC_SHA256_Buf_P2b((uint8_t *)B + B_size - 64, 64,
 		    sha256, sizeof(sha256), (uint8_t *)dst);
 	}
 
