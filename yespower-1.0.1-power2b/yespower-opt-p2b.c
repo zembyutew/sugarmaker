@@ -1014,7 +1014,7 @@ static void smix(uint8_t *B, size_t r, uint32_t N,
 #define blockmix_xor_save blockmix_xor_save_1_0
 #define smix1 smix1_1_0
 #define smix2 smix2_1_0
-#define smix smix_1_0
+#define smix smix_1_0_p2b
 #include "yespower-opt-p2b.c"
 #undef smix
 
@@ -1113,7 +1113,7 @@ int yespower_p2b(yespower_local_t *local,
 
 		PBKDF2_SHA256_P2B(sha256, sizeof(sha256), src, srclen, 1, B, 128);
 		memcpy(sha256, B, sizeof(sha256));
-		smix_1_0(B, r, N, V, XY, &ctx);
+		smix_1_0_p2b(B, r, N, V, XY, &ctx);
 		HMAC_SHA256_Buf_P2b(B + B_size - 64, 64,
 		    sha256, sizeof(sha256), (uint8_t *)dst);
 	} else if (version == YESPOWER_1_0_BLAKE2B) {
@@ -1130,7 +1130,7 @@ int yespower_p2b(yespower_local_t *local,
 
 		pbkdf2_blake2b(blake2b, sizeof(blake2b), src, srclen, 1, B, 128);
 		memcpy(sha256, B, sizeof(blake2b));
-		smix_1_0(B, r, N, V, XY, &ctx);
+		smix_1_0_p2b(B, r, N, V, XY, &ctx);
 		hmac_blake2b_hash((uint8_t *)dst, B + B_size - 64, 64, blake2b, sizeof(blake2b));
 	}
 
