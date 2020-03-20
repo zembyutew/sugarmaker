@@ -405,7 +405,7 @@ static inline uint32_t blockmix_salsa_xor(const salsa20_blk_t *restrict Bin1,
 }
 
 #if _YESPOWER_OPT_C_PASS_ == 1
-/* This is tunable, but it is part of what defines a yespower version */
+/* This is tunable, but it is part of what defines a yespower_p2b version */
 /* Version 0.5 */
 #define Swidth_0_5 8
 /* Version 1.0 */
@@ -1019,14 +1019,14 @@ static void smix(uint8_t *B, size_t r, uint32_t N,
 #undef smix
 
 /**
- * yespower(local, src, srclen, params, dst):
- * Compute yespower(src[0 .. srclen - 1], N, r), to be checked for "< target".
+ * yespower_p2b(local, src, srclen, params, dst):
+ * Compute yespower_p2b(src[0 .. srclen - 1], N, r), to be checked for "< target".
  * local is the thread-local data structure, allowing to preserve and reuse a
  * memory allocation across calls, thereby reducing its overhead.
  *
  * Return 0 on success; or -1 on error.
  */
-int yespower(yespower_local_t *local,
+int yespower_p2b(yespower_local_t *local,
     const uint8_t *src, size_t srclen,
     const yespower_params_t *params,
     yespower_binary_t *dst)
@@ -1144,7 +1144,7 @@ fail:
 
 /**
  * yespower_tls_p2b(src, srclen, params, dst):
- * Compute yespower(src[0 .. srclen - 1], N, r), to be checked for "< target".
+ * Compute yespower_p2b(src[0 .. srclen - 1], N, r), to be checked for "< target".
  * The memory allocation is maintained internally using thread-local storage.
  *
  * Return 0 on success; or -1 on error.
@@ -1160,7 +1160,7 @@ int yespower_tls_p2b(const uint8_t *src, size_t srclen,
 		initialized = 1;
 	}
 
-	return yespower(&local, src, srclen, params, dst);
+	return yespower_p2b(&local, src, srclen, params, dst);
 }
 
 int yespower_init_local(yespower_local_t *local)
