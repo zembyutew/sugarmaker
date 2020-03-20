@@ -566,7 +566,7 @@ int yespower_tls_p2b(const uint8_t *src, size_t srclen,
 	return yespower(NULL, src, srclen, params, dst);
 }
 
-int yespower_init_local(yespower_local_t *local)
+int yespower_init_local_p2b(yespower_local_t *local)
 {
 /* The reference implementation doesn't use the local structure */
 	local->base = local->aligned = NULL;
@@ -574,7 +574,7 @@ int yespower_init_local(yespower_local_t *local)
 	return 0;
 }
 
-int yespower_free_local(yespower_local_t *local)
+int yespower_free_local_p2b(yespower_local_t *local)
 {
 /* The reference implementation frees its memory in yespower() */
 	(void)local; /* unused */

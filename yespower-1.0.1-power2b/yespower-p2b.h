@@ -74,7 +74,7 @@ typedef struct {
 } yespower_binary_t;
 
 /**
- * yespower_init_local(local):
+ * yespower_init_local_p2b(local):
  * Initialize the thread-local (RAM) data structure.  Actual memory allocation
  * is currently fully postponed until a call to yespower().
  *
@@ -82,10 +82,10 @@ typedef struct {
  *
  * MT-safe as long as local is local to the thread.
  */
-extern int yespower_init_local(yespower_local_t *local);
+extern int yespower_init_local_p2b(yespower_local_t *local);
 
 /**
- * yespower_free_local(local):
+ * yespower_free_local_p2b(local):
  * Free memory that may have been allocated for an initialized thread-local
  * (RAM) data structure.
  *
@@ -93,7 +93,7 @@ extern int yespower_init_local(yespower_local_t *local);
  *
  * MT-safe as long as local is local to the thread.
  */
-extern int yespower_free_local(yespower_local_t *local);
+extern int yespower_free_local_p2b(yespower_local_t *local);
 
 /**
  * yespower(local, src, srclen, params, dst):
@@ -103,7 +103,7 @@ extern int yespower_free_local(yespower_local_t *local);
  *
  * Return 0 on success; or -1 on error.
  *
- * local must be initialized with yespower_init_local().
+ * local must be initialized with yespower_init_local_p2b().
  *
  * MT-safe as long as local and dst are local to the thread.
  */

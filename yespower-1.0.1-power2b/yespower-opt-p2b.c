@@ -1163,13 +1163,13 @@ int yespower_tls_p2b(const uint8_t *src, size_t srclen,
 	return yespower_p2b(&local, src, srclen, params, dst);
 }
 
-int yespower_init_local(yespower_local_t *local)
+int yespower_init_local_p2b(yespower_local_t *local)
 {
 	init_region(local);
 	return 0;
 }
 
-int yespower_free_local(yespower_local_t *local)
+int yespower_free_local_p2b(yespower_local_t *local)
 {
 	return free_region(local);
 }
