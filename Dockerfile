@@ -6,7 +6,7 @@
 #
 
 FROM            ubuntu:16.04
-MAINTAINER      kanon <decryp2kanon@gmail.com>
+MAINTAINER      kanon <60179867+decryp2kanon@users.noreply.github.com>
 
 RUN             apt-get update -qq && \
                 apt-get install -qqy automake libcurl4-openssl-dev git make gcc

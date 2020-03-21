@@ -88,7 +88,7 @@ rpcpassword=パスワード
 - Jeff Garzik <jeff@garzik.org>
 - Pooler <pooler@litecoinpool.org>
 - Alexander Peslyak <solar@openwall.com>
-- Kanon <decryp2kanon@gmail.com>
+- Kanon <60179867+decryp2kanon@users.noreply.github.com>
 
 ### Support and donation
 If you happy with this sugarmaker, please support devloper for better performance in near future!

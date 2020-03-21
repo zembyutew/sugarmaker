@@ -1887,10 +1887,10 @@ static void show_credits() {
 	printf("     Multi-threaded CPU miner for Sugarchain and other Yespower variants\n");
 	printf("\n");
 	printf("     Authors:\n");
-	printf("     Jeff Garzik            jeff@garzik.org\n");
-	printf("     Pooler                 pooler@litecoinpool.org\n");
-	printf("     Alexander Peslyak      solar@openwall.com\n");
-	printf("     Kanon                  decryp2kanon@gmail.com\n");
+	printf("     Jeff Garzik          jeff@garzik.org\n");
+	printf("     Pooler               pooler@litecoinpool.org\n");
+	printf("     Alexander Peslyak    solar@openwall.com\n");
+	printf("     Kanon                60179867+decryp2kanon@users.noreply.github.com\n");
 	printf("\n");
 	printf("     Donation to Kanon:\n");
 	printf("     Your support is very helpful to develop better software:)\n");
