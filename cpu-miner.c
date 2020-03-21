@@ -1881,11 +1881,39 @@ static void signal_handler(int sig)
 }
 #endif
 
+static void show_credits() {
+	printf("\n");
+	printf("     *** \x1B[96m\e[1m"PACKAGE_NAME"\x1B[0m\e[21m "PACKAGE_VERSION" by Kanon ***\n");
+	printf("     Multi-threaded CPU miner for Sugarchain and other Yespower variants\n");
+	printf("\n");
+	printf("     Authors:\n");
+	printf("     Jeff Garzik            jeff@garzik.org\n");
+	printf("     Pooler                 pooler@litecoinpool.org\n");
+	printf("     Alexander Peslyak      solar@openwall.com\n");
+	printf("     Kanon                  decryp2kanon@gmail.com\n");
+	printf("\n");
+	printf("     Donation to Kanon:\n");
+	printf("     Your support is very helpful to develop better software:)\n");
+	printf("\n");
+	printf("     BTC   \x1B[33m 1JojGCHLpEVMv6Z28y9gN6jUXtGF2ioEUV \x1B[0m\n");
+	printf("     BTC   \x1B[33m bc1qqe30mhqdkjfszzc4pex5udvay2ay6w0htgwtax \x1B[0m(bech32)\n");
+	printf("     SUGAR \x1B[36m sugar1qv0ahzfa2ssu47wes89390sl0jz6g05h0267u8g \x1B[0m\n");
+	printf("\n");
+	printf("     Download Latest Release:\n");
+	printf("     https://github.com/decryp2kanon/sugarmaker/releases/latest\n");
+	printf("\n");
+	printf("     Bug Report or Question (English, Chinese, Japanese, Korean):\n");
+	printf("     https://github.com/decryp2kanon/sugarmaker/issues\n");
+	printf("\n");
+}
+
 int main(int argc, char *argv[])
 {
 	struct thr_info *thr;
 	long flags;
 	int i;
+
+	show_credits();
 
 	rpc_user = strdup("");
 	rpc_pass = strdup("");
