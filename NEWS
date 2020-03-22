@@ -1,5 +1,8 @@
 Version 2.5.0-sugar4 - March 23, 2020
 
+- Performance improves on Yespower
+  * fix array size
+  * fix containing loop
 - Add other Yespower coins
   * YespowerSugar: Sugarchain (default)
   * YespowerIso:   IsotopeC
