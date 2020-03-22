@@ -51,7 +51,7 @@ Run `sugarmaker --help` to see options. You can solo-mine using these options:
 
 - Mainnet (Solo)
 ```
-./sugarmaker -o localhost:34229 -u ユーザーネーム -p パスワード --coinbase-addr=sugar1qv0ahzfa2ssu47wes89390sl0jz6g05h0267u8g -t1
+./sugarmaker -o http://127.0.0.1:34229 -u ユーザーネーム -p パスワード --coinbase-addr=sugar1qv0ahzfa2ssu47wes89390sl0jz6g05h0267u8g -t1
 ```
 - Mainnet (Stratum Pool)
 ```
@@ -59,7 +59,7 @@ Run `sugarmaker --help` to see options. You can solo-mine using these options:
 ```
 - Testnet (Solo)
 ```
-./sugarmaker -o localhost:44229 -u ユーザーネーム -p パスワード --coinbase-addr=tugar1qkvl32hmzvgtwpu7v70k5u0kcv9s4uqy4twjge8 -t1
+./sugarmaker -o http://127.0.0.1:44229 -u ユーザーネーム -p パスワード --coinbase-addr=tugar1qkvl32hmzvgtwpu7v70k5u0kcv9s4uqy4twjge8 -t1
 ```
 - Testnet (Stratum Pool)
 ```
