@@ -28,7 +28,9 @@ rm -f config.status
 
 # BUILD
 ./autogen.sh
-CFLAGS="-Wall -O2 -fomit-frame-pointer" CXXFLAGS="$CFLAGS -std=gnu++11" LDFLAGS="-static" ./configure --with-curl=/usr/local/
+# CFLAGS="-Wall -O2 -fomit-frame-pointer" ./configure
+# ./configure --with-curl="/usr/local/" --with-crypto="/usr/local/" CFLAGS="-Wall -O2 -fomit-frame-pointer" LDFLAGS="-static -I/usr/local/lib/ -L/usr/local/lib/libcrypto.a" LIBS="-lssl -lcrypto -lz -lpthread -ldl" CFLAGS="-DCURL_STATICLIB" --with-crypto
+./configure --with-curl="/usr/local/" --with-crypto="/usr/local/" CFLAGS="-Wall -O2 -fomit-frame-pointer" LDFLAGS="-static" LIBS="-ldl -lz"
 make
 strip -s sugarmaker
 
@@ -36,7 +38,7 @@ strip -s sugarmaker
 file sugarmaker | grep "statically linked"
 
 # PACKAGE
-RELEASE=sugarmaker-v2.5.0-sugar3-linux32-static
+RELEASE=sugarmaker-v2.5.0-sugar3-aarch64
 rm -rf $RELEASE
 mkdir $RELEASE
 cp ./mining-script/sh/*.sh $RELEASE/

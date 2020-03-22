@@ -20,7 +20,7 @@ strip -s sugarmaker
 file sugarmaker | grep "statically linked"
 
 # PACKAGE
-RELEASE=sugarmaker-v2.5.0-sugar3-linux64-static
+RELEASE=sugarmaker-v2.5.0-sugar3-linux64
 rm -rf $RELEASE
 mkdir $RELEASE
 cp ./mining-script/sh/*.sh $RELEASE/
