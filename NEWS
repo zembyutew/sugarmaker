@@ -1,3 +1,16 @@
+Version 2.5.0-sugar4 - March 23, 2020
+
+- Add other Yespower coins
+  * YespowerSugar: Sugarchain (default)
+  * YespowerIso:   IsotopeC
+  * YespowerNull:  CranePay, Bellcoin, Veco, SwampCoin
+  * YespowerUrx:   UraniumX
+  * YespowerLitb:  LightBit
+  * YespowerIots:  IOTS
+  * YespowerItc:   Intercoin
+  * YespowerMbc:   power2b for MicroBitcoin
+- Drop directory name static
+
 Version 2.5.0-sugar3 - March 16, 2020
 
 - Fix all static binaries
