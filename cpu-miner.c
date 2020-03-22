@@ -181,13 +181,13 @@ Usage: " PROGRAM_NAME " [OPTIONS]\n\
 Options:\n\
   -a, --algo=ALGO       specify the algorithm to use\n\
                           YespowerSugar: Sugarchain (default)\n\
-                          YespowerIso: IsotopeC\n\
-                          YespowerNull: CranePay, Bellcoin, Veco, SwampCoin\n\
-                          YespowerUrx: UraniumX\n\
-                          YespowerLitb: LightBit\n\
-                          YespowerIots: IOTS\n\
-                          YespowerItc: Intercoin\n\
-                          YespowerMbc: power2b for MicroBitcoin\n\
+                          YespowerIso:   IsotopeC\n\
+                          YespowerNull:  CranePay, Bellcoin, Veco, SwampCoin\n\
+                          YespowerUrx:   UraniumX\n\
+                          YespowerLitb:  LightBit\n\
+                          YespowerIots:  IOTS\n\
+                          YespowerItc:   Intercoin\n\
+                          YespowerMbc:   power2b for MicroBitcoin\n\
   -o, --url=URL         URL of mining server\n\
   -O, --userpass=U:P    username:password pair for mining server\n\
   -u, --user=USERNAME   username for mining server\n\
