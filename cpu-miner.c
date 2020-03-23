@@ -1883,7 +1883,7 @@ static void signal_handler(int sig)
 
 static void show_credits() {
 	printf("\n");
-	printf("     *** \x1B[96m\e[1m"PACKAGE_NAME"\x1B[0m\e[21m "PACKAGE_VERSION" by Kanon ***\n");
+	printf("     *** "PACKAGE_NAME" "PACKAGE_VERSION" by Kanon ***\n");
 	printf("     Multi-threaded CPU miner for Sugarchain and other Yespower variants\n");
 	printf("\n");
 	printf("     Authors:\n");
@@ -1895,9 +1895,9 @@ static void show_credits() {
 	printf("     Donation to Kanon:\n");
 	printf("     Your support is very helpful to develop better software:)\n");
 	printf("\n");
-	printf("     BTC   \x1B[33m 1JojGCHLpEVMv6Z28y9gN6jUXtGF2ioEUV \x1B[0m\n");
-	printf("     BTC   \x1B[33m bc1qqe30mhqdkjfszzc4pex5udvay2ay6w0htgwtax \x1B[0m(bech32)\n");
-	printf("     SUGAR \x1B[36m sugar1qv0ahzfa2ssu47wes89390sl0jz6g05h0267u8g \x1B[0m\n");
+	printf("     BTC    1JojGCHLpEVMv6Z28y9gN6jUXtGF2ioEUV\n");
+	printf("     BTC    bc1qqe30mhqdkjfszzc4pex5udvay2ay6w0htgwtax (bech32)\n");
+	printf("     SUGAR  sugar1qv0ahzfa2ssu47wes89390sl0jz6g05h0267u8g\n");
 	printf("\n");
 	printf("     Download Latest Release:\n");
 	printf("     https://github.com/decryp2kanon/sugarmaker/releases/latest\n");
