@@ -108,8 +108,8 @@ enum algos {
 	ALGO_LITB_YESPOWER_1_0_1,
 	ALGO_IOTS_YESPOWER_1_0_1,
 	ALGO_ITC_YESPOWER_1_0_1,
-	ALGO_YTN_YESPOWER_1_0_1,
 	ALGO_MBC_YESPOWER_1_0_1,
+	ALGO_YTN_YESPOWER_1_0_1,
 };
 
 static const char *algo_names[] = {
