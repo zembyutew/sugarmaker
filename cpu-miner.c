@@ -190,7 +190,7 @@ Options:\n\
                           YespowerIots:  IOTS\n\
                           YespowerItc:   Intercoin\n\
                           YespowerMbc:   power2b for MicroBitcoin\n\
-                          YespowerYtn:   Yenten\n\
+                          YespowerYtn:   Yenten (N4096, r16, NULL)\n\
   -o, --url=URL         URL of mining server\n\
   -O, --userpass=U:P    username:password pair for mining server\n\
   -u, --user=USERNAME   username for mining server\n\
