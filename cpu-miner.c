@@ -1219,10 +1219,10 @@ static void *miner_thread(void *userdata)
 			case ALGO_ITC_YESPOWER_1_0_1:
 				max64 = 499;
 				break;
-			case ALGO_YTN_YESPOWER_1_0_1:
+			case ALGO_MBC_YESPOWER_1_0_1:
 				max64 = 499;
 				break;
-			case ALGO_MBC_YESPOWER_1_0_1:
+			case ALGO_YTN_YESPOWER_1_0_1:
 				max64 = 499;
 				break;
 			}
@@ -1279,14 +1279,15 @@ static void *miner_thread(void *userdata)
 				thr_id, work.data, work.target, max_nonce, &hashes_done
 			);
 			break;
-		case ALGO_YTN_YESPOWER_1_0_1:
-			rc = scanhash_ytn_yespower(
+
+		case ALGO_MBC_YESPOWER_1_0_1:
+			rc = scanhash_mbc_yespower(
 				thr_id, work.data, work.target, max_nonce, &hashes_done
 			);
 			break;
 
-		case ALGO_MBC_YESPOWER_1_0_1:
-			rc = scanhash_mbc_yespower(
+		case ALGO_YTN_YESPOWER_1_0_1:
+			rc = scanhash_ytn_yespower(
 				thr_id, work.data, work.target, max_nonce, &hashes_done
 			);
 			break;
