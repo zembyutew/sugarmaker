@@ -120,8 +120,8 @@ static const char *algo_names[] = {
 	[ALGO_LITB_YESPOWER_1_0_1]	= "YespowerLitb",
 	[ALGO_IOTS_YESPOWER_1_0_1]	= "YespowerIots",
 	[ALGO_ITC_YESPOWER_1_0_1]	= "YespowerItc",
-	[ALGO_YTN_YESPOWER_1_0_1]	= "yespowerr16",
 	[ALGO_MBC_YESPOWER_1_0_1]	= "YespowerMbc",
+	[ALGO_YTN_YESPOWER_1_0_1]	= "YespowerYtn",
 };
 
 bool opt_debug = false;
@@ -189,8 +189,8 @@ Options:\n\
                           YespowerLitb:  LightBit\n\
                           YespowerIots:  IOTS\n\
                           YespowerItc:   Intercoin\n\
-                          yespowerr16:   Yenten\n\
                           YespowerMbc:   power2b for MicroBitcoin\n\
+                          YespowerYtn:   Yenten\n\
   -o, --url=URL         URL of mining server\n\
   -O, --userpass=U:P    username:password pair for mining server\n\
   -u, --user=USERNAME   username for mining server\n\
