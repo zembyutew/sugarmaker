@@ -86,7 +86,7 @@ static inline void affine_to_cpu(int id, int cpu)
 {
 }
 #endif
-		
+
 enum workio_commands {
 	WC_GET_WORK,
 	WC_SUBMIT_WORK,
@@ -692,7 +692,7 @@ static void share_result(int result, const char *reason)
 		hashrate += thr_hashrates[i];
 	result ? accepted_count++ : rejected_count++;
 	pthread_mutex_unlock(&stats_lock);
-	
+
 	sprintf(s, hashrate >= 1e3 ? "%.0f" : "%.1f", hashrate);
 	applog(LOG_INFO, "accepted: %lu/%lu (%.2f%%), %s hash/s %s",
 		   accepted_count,
@@ -1047,7 +1047,7 @@ static bool get_work(struct thr_info *thr, struct work *work)
 static bool submit_work(struct thr_info *thr, const struct work *work_in)
 {
 	struct workio_cmd *wc;
-	
+
 	/* fill out work request message */
 	wc = calloc(1, sizeof(*wc));
 	if (!wc)
@@ -1091,7 +1091,7 @@ static void stratum_gen_work(struct stratum_ctx *sctx, struct work *work)
 		memcpy(merkle_root + 32, sctx->job.merkle[i], 32);
 		sha256d(merkle_root, merkle_root, 64);
 	}
-	
+
 	/* Increment extranonce2 */
 	for (i = 0; i < sctx->xnonce2_size && !++sctx->job.xnonce2[i]; i++);
 
@@ -1188,7 +1188,7 @@ static void *miner_thread(void *userdata)
 			work.data[19]++;
 		pthread_mutex_unlock(&g_work_lock);
 		work_restart[thr_id].restart = 0;
-		
+
 		/* adjust max_nonce to meet target scan time */
 		if (have_stratum)
 			max64 = LP_SCANTIME;
@@ -1231,7 +1231,7 @@ static void *miner_thread(void *userdata)
 			max_nonce = end_nonce;
 		else
 			max_nonce = work.data[19] + max64;
-		
+
 		hashes_done = 0;
 		gettimeofday(&tv_start, NULL);
 
@@ -1366,7 +1366,7 @@ start:
 		lp_url = hdr_path;
 		hdr_path = NULL;
 	}
-	
+
 	/* absolute path, on current server */
 	else {
 		copy_start = (*hdr_path == '/') ? (hdr_path + 1) : hdr_path;
@@ -1522,7 +1522,7 @@ static void *stratum_thread(void *userdata)
 				restart_threads();
 			}
 		}
-		
+
 		if (!stratum_socket_full(&stratum, 120)) {
 			applog(LOG_ERR, "Stratum connection timed out");
 			s = NULL;
@@ -1899,10 +1899,10 @@ static void show_credits() {
 	printf("     Multi-threaded CPU miner for Sugarchain and other Yespower variants\n");
 	printf("\n");
 	printf("     Authors:\n");
-	printf("     Jeff Garzik          jeff@garzik.org\n");
-	printf("     Pooler               pooler@litecoinpool.org\n");
-	printf("     Alexander Peslyak    solar@openwall.com\n");
-	printf("     Kanon                60179867+decryp2kanon@users.noreply.github.com\n");
+	printf("     Jeff Garzik\n");
+	printf("     Pooler\n");
+	printf("     Alexander Peslyak\n");
+	printf("     Kanon\n");
 	printf("\n");
 	printf("     Donation to Kanon:\n");
 	printf("     Your support is very helpful to develop better software:)\n");
@@ -2015,7 +2015,7 @@ int main(int argc, char *argv[])
 	thr_info = calloc(opt_n_threads + 3, sizeof(*thr));
 	if (!thr_info)
 		return 1;
-	
+
 	thr_hashrates = (double *) calloc(opt_n_threads, sizeof(double));
 	if (!thr_hashrates)
 		return 1;
