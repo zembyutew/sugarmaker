@@ -126,6 +126,7 @@ static const char *algo_names[] = {
 
 bool opt_debug = false;
 bool opt_protocol = false;
+bool opt_random = false;
 static bool opt_benchmark = false;
 bool opt_redirect = true;
 bool want_longpoll = true;
@@ -212,6 +213,7 @@ Options:\n\
       --no-stratum      disable X-Stratum support\n\
       --no-redirect     ignore requests to change the URL of the mining server\n\
   -q, --quiet           disable per-thread hashmeter output\n\
+  -e, --random		start with a random nonce\n\
   -D, --debug           enable debug output\n\
   -P, --protocol-dump   verbose dump of protocol-level activities\n"
 #ifdef HAVE_SYSLOG_H
@@ -236,7 +238,7 @@ static char const short_options[] =
 #ifdef HAVE_SYSLOG_H
 	"S"
 #endif
-	"a:c:Dhp:Px:qr:R:s:t:T:o:u:O:V";
+	"a:c:Dhp:Px:qer:R:s:t:T:o:u:O:V";
 
 static struct option const options[] = {
 	{ "algo", 1, NULL, 'a' },
@@ -259,6 +261,7 @@ static struct option const options[] = {
 	{ "protocol-dump", 0, NULL, 'P' },
 	{ "proxy", 1, NULL, 'x' },
 	{ "quiet", 0, NULL, 'q' },
+	{ "random", 0, NULL, 'e' },
 	{ "retries", 1, NULL, 'r' },
 	{ "retry-pause", 1, NULL, 'R' },
 	{ "scantime", 1, NULL, 's' },
@@ -1127,9 +1130,12 @@ static void *miner_thread(void *userdata)
 	uint32_t max_nonce;
 	uint32_t start_nonce = 0xffffffffU / opt_n_threads * thr_id;
 	uint32_t end_nonce = 0xffffffffU / opt_n_threads * (thr_id + 1) - 0x20;
+	if (opt_random) {
+		start_nonce = (rand() % (end_nonce - start_nonce + 1)) + start_nonce;
+		end_nonce = 0xffffffffu;
+	}
 	char s[16];
 	int i;
-
 	/* Set worker threads to nice 19 and then preferentially to SCHED_IDLE
 	 * and if that fails, then SCHED_BATCH. No need for this to be an
 	 * error if it fails */
@@ -1632,6 +1638,9 @@ static void parse_arg(int key, char *arg, char *pname)
 		json_decref(config);
 		break;
 	}
+	case 'e':
+		opt_random = true;
+		break;
 	case 'q':
 		opt_quiet = true;
 		break;
@@ -1924,7 +1933,7 @@ int main(int argc, char *argv[])
 	struct thr_info *thr;
 	long flags;
 	int i;
-
+	srand(time(0));
 	show_credits();
 
 	rpc_user = strdup("");

@@ -186,6 +186,7 @@ struct work_restart {
 extern bool opt_debug;
 extern bool opt_protocol;
 extern bool opt_redirect;
+extern bool opt_random;
 extern int opt_timeout;
 extern bool want_longpoll;
 extern bool have_longpoll;
