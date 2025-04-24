@@ -1,1 +1,1 @@
-./sugarmaker -a YespowerSugar -o stratum+tcp://1pool-testnet.cryptozeny.com:3333 -u tugar1qkvl32hmzvgtwpu7v70k5u0kcv9s4uqy4twjge8 -t1
+./sugarmaker -a YespowerAdvc -o stratum+tcp://testnet.novagrid.online:3100 -u aQcrcxKbyfaGs3ZoYXdhjtDLVSNLp7j4xQ -t1
