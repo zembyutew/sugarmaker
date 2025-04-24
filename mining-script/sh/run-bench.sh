@@ -1,1 +1,1 @@
-./sugarmaker -a YespowerSugar --benchmark -t1 -q
+./sugarmaker -a YespowerAdvc --benchmark -t1 -q

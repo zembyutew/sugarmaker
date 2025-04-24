@@ -1,1 +1,1 @@
-sugarmaker.exe -a YespowerSugar --benchmark -t1 -q
+sugarmaker.exe -a YespowerAdvc --benchmark -t1 -q
