@@ -110,6 +110,7 @@ enum algos {
 	ALGO_ITC_YESPOWER_1_0_1,
 	ALGO_MBC_YESPOWER_1_0_1,
 	ALGO_YTN_YESPOWER_1_0_1,
+	ALGO_ADVC_YESPOWER_1_0_1,
 };
 
 static const char *algo_names[] = {
@@ -122,6 +123,7 @@ static const char *algo_names[] = {
 	[ALGO_ITC_YESPOWER_1_0_1]	= "YespowerItc",
 	[ALGO_MBC_YESPOWER_1_0_1]	= "YespowerMbc",
 	[ALGO_YTN_YESPOWER_1_0_1]	= "YespowerYtn",
+	[ALGO_ADVC_YESPOWER_1_0_1]	= "YespowerAdvc",
 };
 
 bool opt_debug = false;
@@ -191,6 +193,7 @@ Options:\n\
                           YespowerItc:   Intercoin\n\
                           YespowerMbc:   power2b for MicroBitcoin\n\
                           YespowerYtn:   Yenten (N4096, r16, NULL)\n\
+						  YespowerAdvc:  AdventureCoin\n\
   -o, --url=URL         URL of mining server\n\
   -O, --userpass=U:P    username:password pair for mining server\n\
   -u, --user=USERNAME   username for mining server\n\
@@ -1225,6 +1228,9 @@ static void *miner_thread(void *userdata)
 			case ALGO_YTN_YESPOWER_1_0_1:
 				max64 = 499;
 				break;
+			case ALGO_ADVC_YESPOWER_1_0_1:
+				max64 = 499;
+				break;
 			}
 		}
 		if (work.data[19] + max64 > end_nonce)
@@ -1291,6 +1297,12 @@ static void *miner_thread(void *userdata)
 				thr_id, work.data, work.target, max_nonce, &hashes_done
 			);
 			break;
+		
+		case ALGO_YTN_YESPOWER_1_0_1:
+			rc = scanhash_advc_yespower(
+				thr_id, work.data, work.target, max_nonce, &hashes_done
+			);
+			break;	
 
 		default:
 			/* should never happen */
