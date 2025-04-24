@@ -1298,7 +1298,7 @@ static void *miner_thread(void *userdata)
 			);
 			break;
 		
-		case ALGO_YTN_YESPOWER_1_0_1:
+		case ALGO_ADVC_YESPOWER_1_0_1:
 			rc = scanhash_advc_yespower(
 				thr_id, work.data, work.target, max_nonce, &hashes_done
 			);
