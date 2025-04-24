@@ -94,6 +94,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "blake2b.h"
+
 #include "insecure_memzero-p2b.h"
 #include "sha256-p2b.h"
 #include "sysendian-p2b.h"
